@@ -5,6 +5,7 @@ import { NgbModalConfig, NgbModal,ModalDismissReasons, NgbActiveModal} from '@ng
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { HttpClient } from '@angular/common/http';
+import { parse } from 'path';
 
 @Component({
   selector: 'app-list-questions',
@@ -25,6 +26,16 @@ export class ListQuestionsComponent implements OnInit {
   testNumberToEdit:any;
   code:any;
   testId:number;
+  subjectName:any;
+  numberOfQuestions:number;
+  testTodEditId:number;
+  testTodEditsubjectName:string;
+  testTodEditNumberOfQn:any;
+  testTodEditDuration:any;
+  testTodEditTestCode:any;
+  message:string;
+  public imagePath;
+  imgURL: any;
   // subject:any;
   numberOfQtns:any;
 @Input() 
@@ -42,6 +53,8 @@ selectedFile=null;
     private modalService: NgbModal) { 
       config.backdrop = 'static';
       config.keyboard = false;
+
+     
     }
 
     openBackDropCustomClass(content) {
@@ -49,7 +62,6 @@ selectedFile=null;
     }
 
     open(content,code:any) {
-      //this.modalService.open(content);
       this.modalService
       .open(content,{ size: 'lg' })
       .result.then(
@@ -91,7 +103,7 @@ selectedFile=null;
       this.code=testCode;
 
       this.resetMaxNumberOfQtn(this.code)
-      console.log(this.code)
+     
     }
 
   
@@ -106,8 +118,14 @@ selectedFile=null;
     }
 
   ngOnInit() {
+    
     let code:string = this._activatedRoute.snapshot.params['Code'];
-    this.quizService.questionDetailsCode=code;
+    localStorage.setItem('testCode',JSON.stringify(code));
+    let retrievedCode=JSON.parse(localStorage.getItem('testCode'))
+
+
+
+    this.quizService.questionDetailsCode=retrievedCode;
     if(code){
       this.getAllQuestions(code);
     }
@@ -117,13 +135,27 @@ selectedFile=null;
     }
     this.questionsFormFields();
     this.resetMaxNumberOfQtn(this.code)
+
+    console.log('retrievd code ', retrievedCode)
+    
   }
 
   resetMaxNumberOfQtn(code:any){
     this.quizService.getTestDetail(code).subscribe(
       data=>{
         this.testNumberToEdit=data
-        console.log('real test data', data)
+        localStorage.setItem('testDetailToEdit',JSON.stringify(this.testNumberToEdit));
+        let testTodEditCredentials=JSON.parse(localStorage.getItem('testDetailToEdit'));
+        if(testTodEditCredentials !==null){
+          this.testTodEditId=testTodEditCredentials.id;
+          this.testTodEditsubjectName=testTodEditCredentials.subjectName;
+          this.testTodEditNumberOfQn=testTodEditCredentials.numberOfQn;
+          this.testTodEditDuration=testTodEditCredentials.duration;
+          this.testTodEditTestCode=testTodEditCredentials.testCode;
+          console.log('real test data', testTodEditCredentials)
+          console.log('real test data2 id',  this.testTodEditId)
+        }
+        
       }
     )
     }
@@ -146,7 +178,11 @@ selectedFile=null;
        this.quizService.getTestDetail(code).subscribe(
          data=>{
            this.quizService.testDetails=data;
-           console.log('detail', this.quizService.testDetails)
+           localStorage.setItem('testDetails',JSON.stringify(this.quizService.testDetails))
+           let testCredentials=JSON.parse(localStorage.getItem('testDetails'));
+           this.subjectName=testCredentials.subjectName;
+           this.numberOfQuestions=testCredentials.numberOfQn;
+           console.log('Q number', this.numberOfQuestions)
          },
          error=>{
            console.log(error)
@@ -183,11 +219,46 @@ selectedFile=null;
       let rep=imagePat.toString().replace('C:\\fakepath\\','').trim();
       return rep;
     }
+    // preview(files) {
+    //   if (files.length === 0)
+    //     return;
+   
+    //   var mimeType = files[0].type;
+    //   if (mimeType.match(/image\/*/) == null) {
+    //     this.message = "Only images are supported.";
+    //     return;
+    //   }
+   
+    //   var reader = new FileReader();
+    //   this.imagePath = files;
+    //   reader.readAsDataURL(files[0]); 
+    //   reader.onload = (_event) => { 
+    //     this.imgURL = reader.result; 
+    //   }
+    // }
+
 
     uploadFile(event:any){    
       this.selectedFile=<File>event.target.files[0].name;
-      let elem = event.target;  
-      if(elem.files.length > 0){     
+      let elem = event.target; 
+      
+      if(elem.files.length > 0){  
+        var mimeType = elem.files[0].type;
+        if (mimeType.match(/image\/*/) == null) {
+          this.message = "Only images are supported.";
+          alert('Only images are supported')
+          return;
+        } 
+
+
+        var reader = new FileReader();
+        this.imagePath = elem.files;
+        reader.readAsDataURL(elem.files[0]); 
+        reader.onload = (_event) => { 
+          this.imgURL = reader.result; 
+        }
+
+
         let formData = new FormData();  
         formData.append('myfile', elem.files[0]); 
         this.quizService.sendFile(formData).subscribe(
@@ -200,13 +271,14 @@ selectedFile=null;
   }
 
   postQuestion(){
+
     if(this.addQuestionForm.invalid){
       return;
     }
     
     this.loading = true;
     const question=this.getQuestions.question.value;
-    const imageName=this.removeFakeImagePath(this.getQuestions.imageName.value);
+    const imageName=this.getQuestions.imageName.value;
     const option1=this.getQuestions.option1.value;
     const option2=this.getQuestions.option2.value;
     const option3=this.getQuestions.option3.value;
@@ -221,6 +293,7 @@ selectedFile=null;
   this.addQuestionForm.reset();
   this.modalService.dismissAll();
   this.toarster.successToastr('Question Added successfully', null, { toastTimeout: 3000 })
+  this.quizService.testDetails.testCode=JSON.parse(localStorage.getItem('testCode'))
     },
     (error)=>{
   this.toarster.errorToastr('Error: ' + error.error.warning, null, { toastTimeout: 3000 })
@@ -228,10 +301,11 @@ selectedFile=null;
   console.log(error);
     })
   }
+
   edit(){
     this.loading=true;
     const Qn=this.testToEdit.Qn;
-    const ImageName=this.removeFakeImagePath(this.testToEdit.ImageName);
+    const ImageName=this.testToEdit.ImageName;
     const Option1=this.testToEdit.Option1;
     const Option2=this.testToEdit.Option2;
     const Option3= this.testToEdit.Option3;
@@ -270,13 +344,14 @@ this.loading=false;
     console.log(id)
   }
 
+
   changeNumberOfQuestions(){
     this.loading=true;
-   const id=this.testNumberToEdit.id;
-   const subjectName=this.testNumberToEdit.subjectName;
-   const numberOfQn=this.testNumberToEdit.numberOfQn;
-   const duration=this.testNumberToEdit.duration;
-   const testCode=this.testNumberToEdit.testCode;
+   const id=this.testTodEditId
+   const subjectName=this.testTodEditsubjectName
+   const numberOfQn= this.testTodEditNumberOfQn
+   const duration=this.testTodEditDuration;
+   const testCode= this.testTodEditTestCode;
    this.quizService.updateTest(id,subjectName,numberOfQn,duration,testCode)
    .subscribe(
      data=>{
