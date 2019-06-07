@@ -1,0 +1,399 @@
+<app-navbar></app-navbar>
+<div class="container-fluid" id="main">
+    <div class="row">
+      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <div class="sidebar-sticky">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="feather feather-home">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22">
+                  </polyline>
+                </svg>
+                <span data-feather="home"></span>
+                Dashboard <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="file"></span>
+                Orders
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span class="glyphicon glyphicon-log-in"></span>
+                <span data-feather="shopping-cart"></span>
+                Questions
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="users"></span>
+                Customers
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="bar-chart-2"></span>
+                Reports
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="feather feather-layers">
+                  <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                  <polyline points="2 17 12 22 22 17"></polyline>
+                  <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+                <span data-feather="layers"></span>
+                Integrations
+              </a>
+            </li>
+          </ul>
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>Saved reports</span>
+            <a class="d-flex align-items-center text-muted" href="#">
+              <span data-feather="plus-circle"></span>
+            </a>
+          </h6>
+          <ul class="nav flex-column mb-2">
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="file-text"></span>
+                Current month
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="file-text"></span>
+                Last quarter
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="file-text"></span>
+                Social engagement
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="file-text"></span>
+                Year-end sale
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+  
+      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <div
+          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">Dashboard</h1>
+          <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group mr-2">
+                <a [routerLink]="['/testmgt']"><button type="button" class="btn btn-sm btn-outline-secondary">Add Test</button></a>
+                <a [routerLink]="['/testList']"> <button type="button" class="btn btn-sm btn-outline-secondary">List Test</button></a>
+              <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+              <span data-feather="calendar"></span>
+              This week
+            </button>
+          </div>
+        </div>
+  
+        <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
+  
+  
+        <div class="container ">
+            <div class="card">
+                <div class="container" >
+                    <diV *ngIf="quizService.testDetails">
+                    <div *ngIf="remainingNumberOfQuestion(quizService.testDetails.numberOfQn,presentNumberOfQuest) <=0 ">
+                        <p class="text text-danger">You have entered the maximum number of Questions specified for this test, 
+                          <a (click)="openEditNumberOfTest(openTestModal,quizService.testDetails.testCode)" type="button" class="btn btn-primary btn-sm">click me</a>
+                           to set maximum number of question for this test </p>
+                    </div>    
+                        <p *ngIf="remainingNumberOfQuestion(quizService.testDetails.numberOfQn,presentNumberOfQuest) >=1 ">You have <span style="color:red;"> {{remainingNumberOfQuestion(quizService.testDetails.numberOfQn,presentNumberOfQuest)}} </span> more questions to add out of <span style="color: red;">{{quizService.testDetails.numberOfQn}}</span> questions specified</p>
+                    </diV>
+                <div class="card-content" >
+                    <div class="card-header" style="height: 50px;" >
+                        <h4 class="float float-left">List of Questions in {{quizService.testDetails.subjectName}}</h4>
+                        <h4 class="float float-right"><a ><button class="btn btn-lg btn-outline-primary btn-sm" (click)="open(content,quizService.testDetails.testCode)" [disabled]="remainingNumberOfQuestion(quizService.testDetails.numberOfQn,presentNumberOfQuest) ===0">Add Question</button></a></h4>
+                        </div>
+                <table class="table table-striped table-bordered" *ngIf="listedQuestions.length > 0">
+                    <thead>
+                  <tr>
+                    <th>SN</th>
+                    <th>Questions</th>
+                    <th>OPtion A</th>
+                    <th>OPtion B</th>
+                    <th>OPtion C</th>
+                    <th>OPtion D</th>
+                    <th>Answer</th>
+                    <th>Test Code</th>
+                    <th colspan="2">Action</th>
+                  </tr>
+                 </thead>
+                <ng-container *ngFor="let test of listedQuestions let i=index;" >
+                    <tbody>
+                      <tr>
+                          <td>{{i+1}}</td>
+                        <td>{{test.Qn }}</td>
+                        <td>{{test.Option1 }}</td>
+                        <td>{{test.Option2 }}</td>
+                        <td>{{test.Option3 }}</td>
+                        <td>{{test.Option4 }}</td>
+                        <td>{{test.answer }}</td>
+                        <td>{{test.testCode }}</td>
+                       
+                       <td> <button class="btn btn-lg btn-outline-primary btn-sm" (click)="openModalToEditQuestion(contentToEdit,test)"><i class="fa fa-edit"  ngbTooltip="Edit Question"></i></button></td>
+                       <td> <a (click)="delete(test.id)"><i class="fa fa-remove" ngbTooltip="Delete Question"></i> </a></td>
+                      </tr>
+                      <tr *ngIf="listedQuestions && listedQuestions.length===0">
+                        <td colspan="5" >
+                          No Test detail to display
+                        </td>
+                      </tr>
+                    </tbody>
+                  </ng-container>
+                
+                  </table>
+                  <div *ngIf="listedQuestions === null">
+                      <h3>No Question to display</h3>
+                    </div>
+                </div>
+                </div>
+                </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+<!-- Modal start -->
+
+  <ng-template #content let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">
+            <h3 class="float float-left">Add Questions to {{quizService.testDetails.subjectName}} test</h3>
+        </h4>
+      
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+   
+      <div class="modal-body">
+          <div class="card">
+              <div class="card-header">
+                  <h5>You have <span style="color:red;"> {{remainingNumberOfQuestion(quizService.testDetails.numberOfQn,presentNumberOfQuest)}} </span> more questions to add out of <span style="color: red;">{{quizService.testDetails.numberOfQn}}</span> questions specified</h5>
+              </div>
+              <div class="card-body ">
+                  <form [formGroup]="addQuestionForm" (ngSubmit)="postQuestion()" enctype="multipart/form-data" >
+        
+                    <div class="form-row">
+                      <div class="form-group col-md-12">
+                        <label for="inputEmail4">Question</label>
+                        <textarea id="icon_prefix" class="form-control" type="text" cols="5" rows="5"  [formControl]="addQuestionForm.controls['question']" ></textarea>
+                      </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                          <label for="inputPassword4">Image</label>
+                          <input id="icon_telephone" class="form-control" type="file"  [formControl]="addQuestionForm.controls['imageName']">
+                        </div>
+                      </div>
+  
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="inputEmail4">A</label>
+                          <input id="icon_prefix" type="text" class="form-control" [formControl]="addQuestionForm.controls['option1']">
+                          
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="inputPassword4">B</label>
+                          <input id="icon_prefix" type="text" class="form-control" [formControl]="addQuestionForm.controls['option2']">
+                        </div>
+                      </div>
+                    
+                      <div class="form-row">
+                          <div class="form-group col-md-6">
+                            <label for="inputEmail4">C</label>
+                            <input id="icon_prefix" type="text"class="form-control" [formControl]="addQuestionForm.controls['option3']">
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label for="inputPassword4">D</label>
+                            <input id="icon_prefix" type="text" class="form-control" [formControl]="addQuestionForm.controls['option4']">
+                          </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                              <label for="inputEmail4">Answer</label>
+                              <select class="form-control" [formControl]="addQuestionForm.controls['answer']">
+                                <option [value]="null" [selected]='null'>Select Option </option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                              </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="inputPassword4">Test Code</label>
+                              <input id="icon_telephone" type="text" class="form-control" [formControl]="addQuestionForm.controls['testCode']" [(ngModel)]="quizService.testDetails.testCode">
+                            </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-md-12" >
+                                <button class="form-control btn-submit btn btn-outline-primary mb-2 mr-2" [disabled]="!addQuestionForm.valid" type="submit"><i *ngIf="loading"
+                                  class="fa fa-spinner fa-spin"></i> Submit</button>
+                              </div>
+                            </div>
+                  </form>
+              </div>
+            </div>
+      </div>
+    </ng-template>
+
+
+
+    <!-- edit questions -->
+  <ng-template #contentToEdit let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">
+            <h3 class="float float-left">Add Questions to {{quizService.testDetails.subjectName}} test</h3>
+        </h4>
+      
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+   
+      <div class="modal-body">
+          <div class="card">
+              <div class="card-header">
+                  <h5>You have <span style="color:red;"> {{remainingNumberOfQuestion(quizService.testDetails.numberOfQn,presentNumberOfQuest)}} </span> more questions to add out of <span style="color: red;">{{quizService.testDetails.numberOfQn}}</span> questions specified</h5>
+              </div>
+              <div class="card-body ">
+                  <form #editForm=ngForm (ngSubmit)="edit()" enctype="multipart/form-data" >
+                    <input id="icon_telephone" class="form-control" type="hidden" #id="ngModel" name="id"  [(ngModel)]="testToEdit.id">
+        
+                    <div class="form-row">
+                      <div class="form-group col-md-12">
+                        <label for="inputEmail4">Question</label>
+                        <textarea id="icon_prefix" class="form-control" type="text" cols="5" rows="5"  #Qn="ngModel" name="Qn"   [(ngModel)]="testToEdit.Qn" ></textarea>
+                      </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                          <label for="inputPassword4">Image</label>
+                          <input id="icon_telephone" class="form-control" type="file" #imageName="ngModel" name="imageName"  [(ngModel)]="testToEdit.imageName">
+                        </div>
+                      </div>
+  
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="inputEmail4">A</label>
+                          <input id="icon_prefix" type="text" class="form-control" #option1="ngModel" name="option1" [(ngModel)]="testToEdit.Option1">
+                          
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="inputPassword4">B</label>
+                          <input id="icon_prefix" type="text" class="form-control" #option2="ngModel" name="option2" [(ngModel)]="testToEdit.Option2">
+                        </div>
+                      </div>
+                    
+                      <div class="form-row">
+                          <div class="form-group col-md-6">
+                            <label for="inputEmail4">C</label>
+                            <input id="icon_prefix" type="text"class="form-control" #option3="ngModel" name="option3" [(ngModel)]="testToEdit.Option3">
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label for="inputPassword4">D</label>
+                            <input id="icon_prefix" type="text" class="form-control" #option4="ngModel" name="option4" [(ngModel)]="testToEdit.Option4">
+                          </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                              <label for="inputEmail4">Answer</label>
+                              <select class="form-control" #answer="ngModel" name="amswer"  [(ngModel)]="testToEdit.answer">
+                                <option [value]="null" [selected]='null'>Select Option </option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                              </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="inputPassword4">Test Code</label>
+                              <input id="icon_telephone" type="text" class="form-control" #testCode="ngModel" name="testCode" [(ngModel)]="testToEdit.testCode" disabled>
+                            </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-md-12" >
+                                <button class="form-control btn-submit btn btn-outline-primary mb-2 mr-2" [disabled]="!editForm.valid" type="submit"><i *ngIf="loading"
+                                  class="fa fa-spinner fa-spin"></i> Update</button>
+                              </div>
+                            </div>
+                  </form>
+              </div>
+            </div>
+      </div>
+    </ng-template>
+    
+    <!-- Edit number of test -->
+    
+    <ng-template #openTestModal let-c="close" let-d="dismiss">
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Set maximum number of questions in  {{quizService.testDetails.subjectName}} test!</h4>
+          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form #updateForm=ngForm (ngSubmit)="changeNumberOfQuestions()"  >
+  
+
+              <div class="form-row">
+              <input id="icon_telephone" class="form-control" type="text" #id="ngModel" name="id"  [(ngModel)]="testNumberToEdit.id">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Subject Name</label>
+                    <input id="icon_prefix" type="text" class="form-control" #subjectName="ngModel" name="subjectName" [(ngModel)]="testNumberToEdit.subjectName">
+                    
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="inputPassword4">Number Of Questions</label>
+                    <input id="icon_prefix" type="text" class="form-control" #numberOfQn="ngModel" name="numberOfQn" [(ngModel)]="testNumberToEdit.numberOfQn">
+                  </div>
+                </div>
+              
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="inputEmail4">Duration</label>
+                      <input id="icon_prefix" type="text"class="form-control" #duration="ngModel" name="duration" [(ngModel)]="testNumberToEdit.duration">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="inputPassword4">Test Code</label>
+                      <input id="icon_prefix" type="text" class="form-control" #testCode="ngModel" name="testCode" [(ngModel)]="testNumberToEdit.testCode" disabled>
+                    </div>
+                  </div>
+                  
+                    <div class="row">
+                        <div class="col-md-12" >
+                          <button class="form-control btn-submit btn btn-outline-primary mb-2 mr-2" [disabled]="!updateForm.valid" type="submit"><i *ngIf="loading"
+                            class="fa fa-spinner fa-spin"></i> Save </button>
+                        </div>
+                      </div>
+            </form>
+        </div>
+       
+      </ng-template>
+      
