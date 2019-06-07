@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModalConfig, NgbModal,ModalDismissReasons, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrManager } from 'ng6-toastr-notifications';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-list-questions',
@@ -34,9 +35,10 @@ duration:number;
 questionsList:any[];
 @Input()
 subject:any;
+selectedFile=null;
   constructor(private quizService:QuizService,
     private _activatedRoute:ActivatedRoute, private fb: FormBuilder,
-    config: NgbModalConfig,private toarster:ToastrManager,
+    config: NgbModalConfig,private toarster:ToastrManager,private http:HttpClient,
     private modalService: NgbModal) { 
       config.backdrop = 'static';
       config.keyboard = false;
@@ -87,14 +89,12 @@ subject:any;
         }
       );
       this.code=testCode;
-      this.quizService.getTestDetail(this.code).subscribe(
-        data=>{
-          this.testNumberToEdit=data
-          console.log('real test data', data)
-        }
-      )
+
+      this.resetMaxNumberOfQtn(this.code)
       console.log(this.code)
     }
+
+  
     private getDismissReason(reason: any): string {
       if (reason === ModalDismissReasons.ESC) {
         return 'by pressing ESC';
@@ -110,16 +110,23 @@ subject:any;
     this.quizService.questionDetailsCode=code;
     if(code){
       this.getAllQuestions(code);
-      
     }
 
     if(this.quizService.questionDetailsCode){
       this.testDetail(this.quizService.questionDetailsCode);
     }
     this.questionsFormFields();
-  //this.testId =  parseInt(this.testNumberToEdit.id) ? parseInt(this.testNumberToEdit.id) : parseInt(this.testNumberToEdit.id) ;
+    this.resetMaxNumberOfQtn(this.code)
   }
 
+  resetMaxNumberOfQtn(code:any){
+    this.quizService.getTestDetail(code).subscribe(
+      data=>{
+        this.testNumberToEdit=data
+        console.log('real test data', data)
+      }
+    )
+    }
   get getQuestions() { return this.addQuestionForm.controls; }
   
   getAllQuestions(code:any){
@@ -172,22 +179,42 @@ subject:any;
       });
     }
 
-    
+    removeFakeImagePath(imagePat:any){
+      let rep=imagePat.toString().replace('C:\\fakepath\\','').trim();
+      return rep;
+    }
+
+    uploadFile(event:any){    
+      this.selectedFile=<File>event.target.files[0].name;
+      let elem = event.target;  
+      if(elem.files.length > 0){     
+        let formData = new FormData();  
+        formData.append('myfile', elem.files[0]); 
+        this.quizService.sendFile(formData).subscribe(
+          (response) => {
+      console.log(response);
+          });
+      }
+      console.log(this.selectedFile)
+  elem.value = ""; 
+  }
+
   postQuestion(){
     if(this.addQuestionForm.invalid){
       return;
     }
+    
     this.loading = true;
     const question=this.getQuestions.question.value;
-    const imageName=this.getQuestions.imageName.value;
+    const imageName=this.removeFakeImagePath(this.getQuestions.imageName.value);
     const option1=this.getQuestions.option1.value;
     const option2=this.getQuestions.option2.value;
     const option3=this.getQuestions.option3.value;
     const option4=this.getQuestions.option4.value;
     const answer=this.getQuestions.answer.value;
     const testCode=this.getQuestions.testCode.value;
-  console.log(question + imageName + option1+ ' ' +option2+option3 + option4 + answer + testCode)
-    this.quizService.addQuestion(question,imageName,option1,option2,option3,option4,answer,testCode)
+  console.log('image path ', imageName)
+    this.quizService.addQuestion(question,this.selectedFile ? this.selectedFile:null,option1,option2,option3,option4,answer,testCode)
     .subscribe( data=>{
       this.loading = false;
   this.getAllQuestions(this.quizService.testDetails.testCode);
@@ -204,7 +231,7 @@ subject:any;
   edit(){
     this.loading=true;
     const Qn=this.testToEdit.Qn;
-    const ImageName=this.testToEdit.ImageName;
+    const ImageName=this.removeFakeImagePath(this.testToEdit.ImageName);
     const Option1=this.testToEdit.Option1;
     const Option2=this.testToEdit.Option2;
     const Option3= this.testToEdit.Option3;
@@ -212,6 +239,7 @@ subject:any;
     const answer=this.testToEdit.answer;
     const id=this.testToEdit.id;
     const testCode=this.testToEdit.testCode;
+    console.log('edited image', ImageName)
     this.quizService.updateQuestion(id,Qn,ImageName,Option1,Option2,Option3,Option4,answer,testCode).subscribe(
       data=>{
         this.loading = false;
@@ -226,7 +254,7 @@ this.loading=false;
       }
     )
   }
-  
+
   delete(id:number){
     this.quizService.deleteQuestion(id).subscribe(
       data=>{
@@ -253,7 +281,6 @@ this.loading=false;
    .subscribe(
      data=>{
        this.loading = false;
-       this.getAllQuestions(this.quizService.testDetails.testCode);
        this.testDetail(this.quizService.testDetails.testCode)
        this.modalService.dismissAll();
        this.toarster.successToastr('Selected Test Number of Questions updated successfully', null, { toastTimeout: 3000 })

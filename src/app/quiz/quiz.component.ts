@@ -138,4 +138,9 @@ testCompletedMessage:any='';
     },1000)
   }
 
+  removeFakeImagePath(imagePat:any){
+    let rep=imagePat.replace('C:\fakepath','');
+    return rep;
+  }
+
 }

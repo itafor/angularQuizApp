@@ -118,8 +118,8 @@
                     <diV *ngIf="quizService.testDetails">
                     <div *ngIf="remainingNumberOfQuestion(quizService.testDetails.numberOfQn,presentNumberOfQuest) <=0 ">
                         <p class="text text-danger">You have entered the maximum number of Questions specified for this test, 
-                          <a (click)="openEditNumberOfTest(openTestModal,quizService.testDetails.testCode)" type="button" class="btn btn-primary btn-sm">click me</a>
-                           to set maximum number of question for this test </p>
+                          <a (click)="openEditNumberOfTest(openTestModal)" type="button" class="btn btn-primary btn-sm">click</a>
+                           to reset</p>
                     </div>    
                         <p *ngIf="remainingNumberOfQuestion(quizService.testDetails.numberOfQn,presentNumberOfQuest) >=1 ">You have <span style="color:red;"> {{remainingNumberOfQuestion(quizService.testDetails.numberOfQn,presentNumberOfQuest)}} </span> more questions to add out of <span style="color: red;">{{quizService.testDetails.numberOfQn}}</span> questions specified</p>
                     </diV>
@@ -208,7 +208,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-12">
                           <label for="inputPassword4">Image</label>
-                          <input id="icon_telephone" class="form-control" type="file"  [formControl]="addQuestionForm.controls['imageName']">
+                          <input id="icon_telephone" class="form-control" type="file"  [formControl]="addQuestionForm.controls['imageName']" (change)="uploadFile($event)">
                         </div>
                       </div>
   
@@ -247,7 +247,7 @@
                             </div>
                             <div class="form-group col-md-6">
                               <label for="inputPassword4">Test Code</label>
-                              <input id="icon_telephone" type="text" class="form-control" [formControl]="addQuestionForm.controls['testCode']" [(ngModel)]="quizService.testDetails.testCode">
+                              <input id="icon_telephone" type="text" class="form-control" [formControl]="addQuestionForm.controls['testCode']" [(ngModel)]="quizService.testDetails.testCode" disabled>
                             </div>
                           </div>
                           <div class="row">

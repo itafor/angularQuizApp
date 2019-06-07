@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 
 export class QuizService {
 readonly rootUrl:string = 'http://127.0.0.1:8000/api/';
+readonly imageUrl:string='http://127.0.0.1:8000/';
 qns:any[];
 seconds:number;
 timer;
@@ -149,5 +150,10 @@ theTestCode:any;
   getTestDetail(code:any){
     return this.http.get(this.rootUrl + 'get-testdetail/' + code)
   }
- 
+
+  sendFile(formData: any){ 
+return this.http.post(this.rootUrl  +  `addNewQuestion`,formData)
 }
+
+}
+

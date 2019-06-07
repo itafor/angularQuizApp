@@ -126,9 +126,9 @@
            <ng-container>
               <h4 class="questions" >{{quizService.qns[pos].Qn}}</h4>
           </ng-container>
-          <!-- <div *ngIf="quizService.qns[quizService.qnProgress].ImageName !=null">
-            <img class="center" [src]="quizService.rootUrl + '/images/' + quizService.qns[quizService.qnProgress].ImageName" style="width:350px; height:200px;">
-          </div> -->
+          <div *ngIf="quizService.qns[pos].ImageName !=null">
+            <img class="center" [src]="quizService.rootUrl + 'files/' + quizService.qns[pos].ImageName" style="width:350px; height:200px;">
+          </div>
                 <form [formGroup]="form" (ngSubmit)="checkAnswer()" >
                   
                   <div class="row">
