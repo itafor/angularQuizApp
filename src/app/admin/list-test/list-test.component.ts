@@ -22,6 +22,7 @@ export class ListTestComponent implements OnInit {
   subj:string;
   closeResult:string;
   testToEdit:any;
+  confirmTest:any=[];
   constructor(private quizService:QuizService, private route:Router, 
     private _activatedRoute:ActivatedRoute, config: NgbModalConfig,private toarster:ToastrManager,
     private modalService: NgbModal) {
@@ -142,17 +143,33 @@ displayTest(){
       
       
 
-        deleteTest(id:number){
-          this.quizService.deleteTest(id).subscribe(
-            data=>{
-              this.toarster.successToastr('Selected Test deleted successfully',null, { toastTimeout: 3000 });
-              this.displayTest();
-            },
-            error=>{
-                this.toarster.errorToastr('Error: ' + error.error.warning, null, { toastTimeout: 3000 })
-            }
-            
+        deleteTest(id:number,testCode:any){
+           this.quizService.getAllQuestions(testCode).subscribe(
+             resp=>{
+             this.confirmTest=resp;
+           if(this.confirmTest.length >=1){
+            this.toarster.warningToastr('The Test you are about to delete has some Questions that depends on it,First delete the questions', null, { toastTimeout: 4000 })
+           }else{
+            this.finalDelete(id)
+           }
+             }
+           )
+      }
+
+      finalDelete(id:number){
+        if (
+          confirm(
+            'Are you sure you want to permanently delete the selected  Test?'
           )
-          console.log(id)
+        ) {
+        this.quizService.deleteTest(id).subscribe(
+          data=>{
+            this.toarster.successToastr('Selected Test deleted successfully',null, { toastTimeout: 3000 });
+            this.displayTest();
+          },
+          error=>{
+              this.toarster.errorToastr('Error: ' + error.error.warning, null, { toastTimeout: 3000 })
+          })
         }
+      }
 }

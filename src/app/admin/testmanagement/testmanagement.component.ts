@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { QuizService } from 'src/app/shared/quiz.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ToastrManager } from 'ng6-toastr-notifications';
 
 @Component({
   selector: 'app-testmanagement',
@@ -11,7 +12,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class TestmanagementComponent implements OnInit {
   public addTestForm:FormGroup;
   constructor(private quizService:QuizService, 
-    route:Router,
+    route:Router,private toarster:ToastrManager,
     private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -40,11 +41,11 @@ export class TestmanagementComponent implements OnInit {
 console.log(subjectName);
     this.quizService.addTest(subjectName,numberOfQn,duration,testCode).subscribe(
       data=>{
-        console.log(data)
+  this.toarster.successToastr('Test Added successfully', null, { toastTimeout: 3000 })
         this.addTestForm.reset();
       },
       error=>{
-        console.log(error)
+      this.toarster.errorToastr('Error: ' + error.error.warning, null, { toastTimeout: 4000 })
       })
 
     

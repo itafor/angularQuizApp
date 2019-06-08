@@ -126,12 +126,13 @@
                     </diV>
                 <div class="card-content" >
                     <div class="card-header" style="height: 50px;" >
-                        <h4 class="float float-left">List of Questions in {{subjectName}}</h4>
-                        <h4 class="float float-right"><a ><button class="btn btn-lg btn-outline-primary btn-sm" (click)="open(content,quizService.testDetails.testCode)" [disabled]="remainingNumberOfQuestion(numberOfQuestions,presentNumberOfQuest) ===0">Add Question</button></a></h4>
+                        <h4 class="float float-left">  List of Questions in {{subjectName}}</h4>
+                        <h4 class="float float-right"><button class="btn btn-lg btn-outline-danger btn-sm" (click)="getId()" style="margin-right: 5px;"> Delete </button> <button class="btn btn-lg btn-outline-primary btn-sm" (click)="open(content,quizService.testDetails.testCode)" [disabled]="remainingNumberOfQuestion(numberOfQuestions,presentNumberOfQuest) ===0"> Add Question</button></h4>
                         </div>
                 <table class="table table-striped table-bordered" *ngIf="listedQuestions.length > 0">
                     <thead>
                   <tr>
+                    <td><input type="checkbox" ></td>
                     <th>SN</th>
                     <th>Questions</th>
                     <th>OPtion A</th>
@@ -146,6 +147,7 @@
                 <ng-container *ngFor="let test of listedQuestions let i=index;" >
                     <tbody>
                       <tr>
+                        <td><input type="checkbox" (click)="multiDelete($event)" value="{{test.id}}"></td>
                           <td>{{i+1}}</td>
                         <td>{{test.Qn }}</td>
                         <td>{{test.Option1 }}</td>
@@ -156,7 +158,7 @@
                         <td>{{test.testCode }}</td>
                        
                        <td> <button class="btn btn-lg btn-outline-primary btn-sm" (click)="openModalToEditQuestion(contentToEdit,test)"><i class="fa fa-edit"  ngbTooltip="Edit Question"></i></button></td>
-                       <td> <a (click)="delete(test.id)"><i class="fa fa-remove" ngbTooltip="Delete Question"></i> </a></td>
+                       <td> <button class="btn btn-lg btn-outline-danger btn-sm" (click)="delete(test.id)"><i class="fa fa-remove" ngbTooltip="Delete Question"></i> </button></td>
                       </tr>
                       <tr *ngIf="listedQuestions && listedQuestions.length===0">
                         <td colspan="5" >
@@ -210,7 +212,7 @@
                     
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                          <label for="inputPassword4">Image <span *ngIf="message" style="color:red; font-size: 16px;">{{message}}</span></label>
+                          <label for="inputPassword4">Image </label>
                           <input id="icon_telephone" accept='image/*' class="form-control" type="file"  [formControl]="addQuestionForm.controls['imageName']" (change)="uploadFile($event)">
                           <img [src]="imgURL" height="150" *ngIf="imgURL" class="offset-2" style="margin-top: 5px;">
                         </div>
@@ -292,14 +294,15 @@
                     <div class="form-row">
                       <div class="form-group col-md-12">
                         <label for="inputEmail4">Question</label>
-                        <textarea id="icon_prefix" class="form-control" type="text" cols="5" rows="5"  #Qn="ngModel" name="Qn"   [(ngModel)]="testToEdit.Qn" ></textarea>
+                        <textarea id="icon_prefix" class="form-control" type="text" cols="5" rows="5"  #Qn="ngModel" name="Qn"   [(ngModel)]="testToEdit.Qn"></textarea>
                       </div>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group col-md-12">
                           <label for="inputPassword4">Image</label>
-                          <input id="icon_telephone" class="form-control" type="file" #imageName="ngModel" name="imageName"  [(ngModel)]="testToEdit.imageName">
+                          <input id="icon_telephone" class="form-control" type="file" #imageName="ngModel" name="imageName"  [(ngModel)]="testToEdit.imageName" (change)="uploadFile($event)">
+                          <img [src]="imgURL" height="150" *ngIf="imgURL" class="offset-2" style="margin-top: 5px;">
                         </div>
                       </div>
   

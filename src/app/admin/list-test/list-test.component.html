@@ -130,7 +130,7 @@
                 <th>Test Code</th>
                 <th>Edit</th>
                 <th>Delete</th>
-                <th>manage Questions</th>
+                <th>Manage Questions</th>
               </tr>
             </thead>
             <ng-container *ngFor="let test of testLists let i=index;">
@@ -143,11 +143,11 @@
                   <td>
                         {{test.testCode }}
                   </td>
-                  <td class="actionBtn"><a (click)="openModalToEditTest(contentToEdit,test)"><i class="fa fa-edit"  ngbTooltip="Edit test"></i></a></td>
-                  <td class="actionBtn"><a (click)="deleteTest(test.id)"><i class="fa fa-remove" ngbTooltip="delete test"></i></a></td>
+                  <td class="actionBtn"> <button class="btn btn-lg btn-outline-primary btn-sm" (click)="openModalToEditTest(contentToEdit,test)"><i class="fa fa-edit"  ngbTooltip="Edit test"></i></button></td>
+                  <td class="actionBtn"><button class="btn btn-lg btn-outline-warning btn-sm"  (click)="deleteTest(test.id,test.testCode)"><i class="fa fa-remove" ngbTooltip="delete test"></i></button></td>
                   <td class="actionBtn">
                       <a  [routerLink]="['/testmgt', test.testCode]">
-                        Manage Question
+                        <img src="assets/images/mngqn.png" width="50" height="50">
                        </a>
                   </td>
                 </tr>

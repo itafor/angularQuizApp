@@ -5,7 +5,7 @@ import { NgbModalConfig, NgbModal,ModalDismissReasons, NgbActiveModal} from '@ng
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { HttpClient } from '@angular/common/http';
-import { parse } from 'path';
+// import { parse } from 'path';
 
 @Component({
   selector: 'app-list-questions',
@@ -36,6 +36,8 @@ export class ListQuestionsComponent implements OnInit {
   message:string;
   public imagePath;
   imgURL: any;
+  ids:any=[];
+  filter: boolean= false;
   // subject:any;
   numberOfQtns:any;
 @Input() 
@@ -118,7 +120,6 @@ selectedFile=null;
     }
 
   ngOnInit() {
-    
     let code:string = this._activatedRoute.snapshot.params['Code'];
     localStorage.setItem('testCode',JSON.stringify(code));
     let retrievedCode=JSON.parse(localStorage.getItem('testCode'))
@@ -137,9 +138,14 @@ selectedFile=null;
     this.resetMaxNumberOfQtn(this.code)
 
     console.log('retrievd code ', retrievedCode)
-    
+    this.getId();
+    // this.toggleFilter();
   }
 
+  toggleFilter(){
+    this.filter = !this.filter; 
+  }
+  
   resetMaxNumberOfQtn(code:any){
     this.quizService.getTestDetail(code).subscribe(
       data=>{
@@ -219,23 +225,6 @@ selectedFile=null;
       let rep=imagePat.toString().replace('C:\\fakepath\\','').trim();
       return rep;
     }
-    // preview(files) {
-    //   if (files.length === 0)
-    //     return;
-   
-    //   var mimeType = files[0].type;
-    //   if (mimeType.match(/image\/*/) == null) {
-    //     this.message = "Only images are supported.";
-    //     return;
-    //   }
-   
-    //   var reader = new FileReader();
-    //   this.imagePath = files;
-    //   reader.readAsDataURL(files[0]); 
-    //   reader.onload = (_event) => { 
-    //     this.imgURL = reader.result; 
-    //   }
-    // }
 
 
     uploadFile(event:any){    
@@ -243,14 +232,14 @@ selectedFile=null;
       let elem = event.target; 
       
       if(elem.files.length > 0){  
+        //check if file is an image
         var mimeType = elem.files[0].type;
         if (mimeType.match(/image\/*/) == null) {
           this.message = "Only images are supported.";
           alert('Only images are supported')
           return;
         } 
-
-
+       //image preview
         var reader = new FileReader();
         this.imagePath = elem.files;
         reader.readAsDataURL(elem.files[0]); 
@@ -258,15 +247,14 @@ selectedFile=null;
           this.imgURL = reader.result; 
         }
 
-
+       //image upload to server
         let formData = new FormData();  
         formData.append('myfile', elem.files[0]); 
         this.quizService.sendFile(formData).subscribe(
           (response) => {
-      console.log(response);
+         console.log(response);
           });
       }
-      console.log(this.selectedFile)
   elem.value = ""; 
   }
 
@@ -314,7 +302,7 @@ selectedFile=null;
     const id=this.testToEdit.id;
     const testCode=this.testToEdit.testCode;
     console.log('edited image', ImageName)
-    this.quizService.updateQuestion(id,Qn,ImageName,Option1,Option2,Option3,Option4,answer,testCode).subscribe(
+    this.quizService.updateQuestion(id,Qn,this.selectedFile ? this.selectedFile:null,Option1,Option2,Option3,Option4,answer,testCode).subscribe(
       data=>{
         this.loading = false;
         this.getAllQuestions(this.quizService.testDetails.testCode);
@@ -366,4 +354,32 @@ this.loading=false;
        this.loading=false;
      }
    )}
+
+   multiDelete(event:any){
+     console.log('event length', event.length)
+      let targets=event.target.value;
+      this.ids.push(targets);
+   }
+
+   getId(){
+     if(this.ids.length >=1){
+    this.ids.forEach(id=>{
+
+      this.quizService.deleteQuestion(id).subscribe(
+        data=>{
+          this.toarster.successToastr('Selected question deleted successfully',null, { toastTimeout: 3000 });
+          this.getAllQuestions(this.quizService.testDetails.testCode);
+          this.ids=[];
+        },
+        error=>{
+            this.toarster.errorToastr('Error: ' + error.error.warning, null, { toastTimeout: 3000 })
+        }
+        
+      )
+      console.log('my ids', id);
+    })
+   }else{
+    this.toarster.errorToastr('Please select a at least one question to delete ', null, { toastTimeout: 3000 })
+   }
+  }
 }
