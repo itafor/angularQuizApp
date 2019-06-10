@@ -5,6 +5,7 @@ import { NgbModalConfig, NgbModal,ModalDismissReasons, NgbActiveModal} from '@ng
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { HttpClient } from '@angular/common/http';
+import { parse } from 'url';
 // import { parse } from 'path';
 
 @Component({
@@ -38,6 +39,7 @@ export class ListQuestionsComponent implements OnInit {
   imgURL: any;
   ids:any=[];
   filter: boolean= false;
+  deleteflag:any =[];
   // subject:any;
   numberOfQtns:any;
 @Input() 
@@ -137,14 +139,8 @@ selectedFile=null;
     this.questionsFormFields();
     this.resetMaxNumberOfQtn(this.code)
 
-    console.log('retrievd code ', retrievedCode)
-    this.getId();
-    // this.toggleFilter();
   }
 
-  toggleFilter(){
-    this.filter = !this.filter; 
-  }
   
   resetMaxNumberOfQtn(code:any){
     this.quizService.getTestDetail(code).subscribe(
@@ -355,31 +351,61 @@ this.loading=false;
      }
    )}
 
-   multiDelete(event:any){
-     console.log('event length', event.length)
+   selectAllQuestions(event) {
+    const checked = event.target.checked;
+    this.listedQuestions.forEach(item =>{ 
+     item.selected = checked;
+     let toStrig=String(item.id)
+     if(item.selected){
+       if(this.ids.indexOf(toStrig) == -1){
+        this.ids.push(toStrig);
+       }
+     } else{
+        this.ids=[];
+     }
+    console.log('lengt',this.ids)
+    });
+  }
+
+   getId(event:any){
       let targets=event.target.value;
+      if(this.ids.find((x: any)=>x==targets))
+    {
+       this.ids.splice(this.ids.indexOf(targets),1)
+   } else{
       this.ids.push(targets);
+}
+ console.log('ids ', this.ids)    
    }
 
-   getId(){
+   multiDelete(){
      if(this.ids.length >=1){
     this.ids.forEach(id=>{
-
       this.quizService.deleteQuestion(id).subscribe(
         data=>{
-          this.toarster.successToastr('Selected question deleted successfully',null, { toastTimeout: 3000 });
+          localStorage.setItem('flag',JSON.stringify(data));
           this.getAllQuestions(this.quizService.testDetails.testCode);
           this.ids=[];
         },
         error=>{
             this.toarster.errorToastr('Error: ' + error.error.warning, null, { toastTimeout: 3000 })
-        }
-        
-      )
-      console.log('my ids', id);
+        })
     })
+    this.multiDeleteFlag();
    }else{
     this.toarster.errorToastr('Please select a at least one question to delete ', null, { toastTimeout: 3000 })
    }
+   
   }
+
+  multiDeleteFlag(){
+let delFlag=JSON.parse(localStorage.getItem('flag'));
+if(delFlag !==null){
+  this.toarster.successToastr('Selected questions deleted successfully',null, { toastTimeout: 4000 });
+ window.localStorage.removeItem('flag')
+}
+   console.log('the flag',)
+  }
+
+  
 }

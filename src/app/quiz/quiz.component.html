@@ -126,56 +126,66 @@
            <ng-container>
               <h4 class="questions" >{{quizService.qns[pos].Qn}}</h4>
           </ng-container>
-          <div *ngIf="quizService.qns[pos].ImageName !=null">
-            <img class="center" [src]="quizService.rootUrl + 'files/' + quizService.qns[pos].ImageName" style="width:350px; height:200px;">
-          </div>
+
+          <div class="col-md-12">
+              <div class="col-md-6 float-left">
+                  <div *ngIf="quizService.qns[pos].ImageName !=null">
+                      <img class="center" [src]="quizService.rootUrl + 'files/' + quizService.qns[pos].ImageName" style="width:350px; height:200px;">
+                    </div>
+              </div>
+              <div  class="col-md-6 float-right">
+                  
+        
                 <form [formGroup]="form" (ngSubmit)="checkAnswer()" >
                   
+                    <div class="row">
+                    <div class="col-md-6">
+                        <label for="optiona">  A
+                            <input  type="radio"
+                            [formControl]="form.controls['choices']" 
+                            formControlName="choices" value="A" >
+                              <span>{{quizService.qns[pos].Option1 }}</span>
+                            </label>
+                    </div>
+                  </div>
                   <div class="row">
-                  <div class="col-md-6">
-                      <label for="optiona">  A
-                          <input  type="radio"
-                          [formControl]="form.controls['choices']" 
-                          formControlName="choices" value="A" >
-                            <span>{{quizService.qns[pos].Option1 }}</span>
-                          </label>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                      <label> B
-                          <input type='radio'  [formControl]="form.controls['choices']" 
-                          formControlName="choices" value="B">
-                        <span>{{quizService.qns[pos].Option2 }}</span>
-                      </label>
-                  </div>
-                </div>
-  
-                <div class="row">
-                    <div class=" col-md-6">
-                        <label>C
+                    <div class="col-md-6">
+                        <label> B
                             <input type='radio'  [formControl]="form.controls['choices']" 
-                            formControlName="choices" value="C">
-                          <span>{{quizService.qns[pos].Option3 }}</span>
+                            formControlName="choices" value="B">
+                          <span>{{quizService.qns[pos].Option2 }}</span>
                         </label>
                     </div>
                   </div>
-
+    
                   <div class="row">
                       <div class=" col-md-6">
-                          <label>D
+                          <label>C
                               <input type='radio'  [formControl]="form.controls['choices']" 
-                              formControlName="choices" value="D">
-                            <span>{{quizService.qns[pos].Option4 }}</span>
+                              formControlName="choices" value="C">
+                            <span>{{quizService.qns[pos].Option3 }}</span>
                           </label>
                       </div>
                     </div>
-                <div class="row">
-                  <div class=" col-md-6">
-                  <button class="submitButton btn btn-outline-primary" [disabled]="!form.valid" > Next Question</button>
+  
+                    <div class="row">
+                        <div class=" col-md-6">
+                            <label>D
+                                <input type='radio'  [formControl]="form.controls['choices']" 
+                                formControlName="choices" value="D">
+                              <span>{{quizService.qns[pos].Option4 }}</span>
+                            </label>
+                        </div>
+                      </div>
+                  <div class="row">
+                    <div class=" col-md-6">
+                    <button class="submitButton btn btn-outline-primary" [disabled]="!form.valid" > Next Question</button>
+                    </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              </div>
+          </div>
+
             </div>
           </div>
   

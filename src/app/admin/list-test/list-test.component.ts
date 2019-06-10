@@ -23,6 +23,14 @@ export class ListTestComponent implements OnInit {
   closeResult:string;
   testToEdit:any;
   confirmTest:any=[];
+  ids:any=[];
+  filter: boolean= false;
+  deleteflag:any =[];
+  testCodeToDelete;any=[]
+  allTheQuestions:any=[];
+  testvalues:any=[];
+  pushedTest:any=[];
+  testTobeDeleted:any[];
   constructor(private quizService:QuizService, private route:Router, 
     private _activatedRoute:ActivatedRoute, config: NgbModalConfig,private toarster:ToastrManager,
     private modalService: NgbModal) {
@@ -30,7 +38,7 @@ export class ListTestComponent implements OnInit {
     config.keyboard = false;
    }
 
-   open(contentToEdit) {
+   open(contentToEdit: any) {
     this.modalService.open(contentToEdit);
   }
     
@@ -63,6 +71,8 @@ export class ListTestComponent implements OnInit {
     this.displayTest()
     this. getListedQns();
     this.numberOfQns();
+    this.allQuestionsCodes();
+    
   }
 
   
@@ -71,16 +81,37 @@ displayTest(){
   this.quizService.getTest().subscribe(
     data=>{
       this.testLists=data;
-      console.log(data);
     }
   ),
-  error=>{
+    (  error: any)=>{
     console.log(error)
   }
+ 
 }
 
 
+allQuestionsCodes(){
+  this.quizService.groupQuestionsByCode().subscribe(data=>{
+    this.allTheQuestions=data;
+    this.allTheQuestions.forEach(codes=>{
+      this.quizService.getTestDetail(codes.testCode).subscribe(
+        resp=>{
+          this.testvalues=resp;
+          this.pushedTest.push(this.testvalues)
+          console.log('all the test',  this.pushedTest );
+          this.testToDelete();
+        }
+      )
+    })
+   
+  })
+  
+}
 
+testToDelete(){
+  this.testTobeDeleted = this.testLists.filter(itemA => !this.pushedTest.some(itemB => itemB.id === itemA.id));
+  console.log('test to delete', this.testTobeDeleted);
+}
   getAllQuestions(code:any,noOfQn:number,duration:number,subject:string){
    console.log(subject)
     this.quizService.getAllQuestions(code).subscribe(
@@ -89,8 +120,6 @@ displayTest(){
         this.numberOfQuestions=noOfQn;
         this.displayDuration=duration;
         this.subj = subject;
-        //console.log(data);
-        // this.route.navigate(['/questionList']);
       },
       error=>{
         console.log(error);
@@ -172,4 +201,65 @@ displayTest(){
           })
         }
       }
+
+      
+   selectAllQuestions(event: { target: { checked: any; }; }) {
+    const checked = event.target.checked;
+    this.testTobeDeleted.forEach((item: { selected: any; id: any; }) =>{ 
+     item.selected = checked;
+     let toStrig=String(item.id)
+     if(item.selected){
+       if(this.ids.indexOf(toStrig) == -1){
+        this.ids.push(toStrig);
+       }
+     } else{
+        this.ids=[];
+     }
+    console.log('lengt',this.ids)
+    });
+
+    console.log('pushed test',   this.pushedTest , '---' , this.testLists);
+   
+  }
+
+   getId(event:any){
+      let targets=event.target.value;
+      if(this.ids.find((x: any)=>x==targets))
+    {
+       this.ids.splice(this.ids.indexOf(targets),1)
+   } else{
+      this.ids.push(targets);
+}
+ console.log('ids ', this.ids)    
+   }
+
+   multiDelete(){
+     if(this.ids.length >=1){
+    this.ids.forEach((id: number)=>{
+      this.quizService.deleteTest(id).subscribe(
+        data=>{
+          localStorage.setItem('flag',JSON.stringify(data));
+          this.displayTest()
+          this.ids=[];
+        },
+        error=>{
+            this.toarster.errorToastr('Error: ' + error.error.warning, null, { toastTimeout: 3000 })
+        })
+    })
+    this.multiDeleteFlag();
+   }else{
+    this.toarster.warningToastr('The Test you are about to delete has some Questions that depends on it,First delete the questions', null, { toastTimeout: 4000 })
+   }
+   
+  }
+
+  multiDeleteFlag(){
+let delFlag=JSON.parse(localStorage.getItem('flag'));
+if(delFlag !==null){
+  this.toarster.successToastr('Selected questions deleted successfully',null, { toastTimeout: 4000 });
+ window.localStorage.removeItem('flag')
+}
+   console.log('the flag',)
+  }
+
 }

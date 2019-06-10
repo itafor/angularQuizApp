@@ -51,6 +51,10 @@ theTestCode:any;
     return this.http.get(this.rootUrl + 'get-questions')
   }
 
+  groupQuestionsByCode(){
+    return this.http.get(this.rootUrl + 'get-groupedQuestions')
+  }
+ 
   insertParticipant(
     name:string,
     email:string,

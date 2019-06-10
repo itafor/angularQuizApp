@@ -127,12 +127,12 @@
                 <div class="card-content" >
                     <div class="card-header" style="height: 50px;" >
                         <h4 class="float float-left">  List of Questions in {{subjectName}}</h4>
-                        <h4 class="float float-right"><button class="btn btn-lg btn-outline-danger btn-sm" (click)="getId()" style="margin-right: 5px;"> Delete </button> <button class="btn btn-lg btn-outline-primary btn-sm" (click)="open(content,quizService.testDetails.testCode)" [disabled]="remainingNumberOfQuestion(numberOfQuestions,presentNumberOfQuest) ===0"> Add Question</button></h4>
+                        <h4 class="float float-right"><button class="btn btn-lg btn-outline-danger btn-sm" (click)="multiDelete()" style="margin-right: 5px;"> Delete </button> <button class="btn btn-lg btn-outline-primary btn-sm" (click)="open(content,quizService.testDetails.testCode)" [disabled]="remainingNumberOfQuestion(numberOfQuestions,presentNumberOfQuest) ===0"> Add Question</button></h4>
                         </div>
                 <table class="table table-striped table-bordered" *ngIf="listedQuestions.length > 0">
                     <thead>
                   <tr>
-                    <td><input type="checkbox" ></td>
+                    <td><input type="checkbox"  (change)="selectAllQuestions($event)" ></td>
                     <th>SN</th>
                     <th>Questions</th>
                     <th>OPtion A</th>
@@ -147,7 +147,7 @@
                 <ng-container *ngFor="let test of listedQuestions let i=index;" >
                     <tbody>
                       <tr>
-                        <td><input type="checkbox" (click)="multiDelete($event)" value="{{test.id}}"></td>
+                        <td><input type="checkbox" (click)="getId($event)"  value="{{test.id}}"  [checked]="test.selected"></td>
                           <td>{{i+1}}</td>
                         <td>{{test.Qn }}</td>
                         <td>{{test.Option1 }}</td>
