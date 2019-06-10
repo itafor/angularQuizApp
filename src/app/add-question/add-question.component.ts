@@ -29,6 +29,7 @@ export class AddQuestionComponent implements OnInit {
         option3:[null, Validators.compose([Validators.required])],
         option4:[null, Validators.compose([Validators.required])],
         answer: [null, Validators.compose([Validators.required])],
+        marks: [null, Validators.compose([Validators.required])],
         testCode:[null, Validators.compose([Validators.required])],
       });
     }
@@ -60,9 +61,10 @@ export class AddQuestionComponent implements OnInit {
   const option3=this.getQuestions.option3.value;
   const option4=this.getQuestions.option4.value;
   const answer=this.getQuestions.answer.value;
+  const marks=this.getQuestions.marks.value;
   const testCode=this.getQuestions.testCode.value;
 console.log(question + imageName + option1+ ' ' +option2+option3 + option4 + answer + testCode)
-  this.quizService.addQuestion(question,imageName,option1,option2,option3,option4,answer,testCode)
+  this.quizService.addQuestion(question,imageName,option1,option2,option3,option4,answer,marks,testCode)
   .subscribe( data=>{
 console.log(data);
   },

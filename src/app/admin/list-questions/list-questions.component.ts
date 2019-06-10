@@ -5,8 +5,6 @@ import { NgbModalConfig, NgbModal,ModalDismissReasons, NgbActiveModal} from '@ng
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { HttpClient } from '@angular/common/http';
-import { parse } from 'url';
-// import { parse } from 'path';
 
 @Component({
   selector: 'app-list-questions',
@@ -40,7 +38,6 @@ export class ListQuestionsComponent implements OnInit {
   ids:any=[];
   filter: boolean= false;
   deleteflag:any =[];
-  // subject:any;
   numberOfQtns:any;
 @Input() 
 noOfQn:number;
@@ -57,8 +54,6 @@ selectedFile=null;
     private modalService: NgbModal) { 
       config.backdrop = 'static';
       config.keyboard = false;
-
-     
     }
 
     openBackDropCustomClass(content) {
@@ -213,6 +208,7 @@ selectedFile=null;
         option3:[null, Validators.compose([Validators.required])],
         option4:[null, Validators.compose([Validators.required])],
         answer: [null, Validators.compose([Validators.required])],
+        marks: [null, Validators.compose([Validators.required])],
         testCode:[null, Validators.compose([Validators.required])],
       });
     }
@@ -268,9 +264,10 @@ selectedFile=null;
     const option3=this.getQuestions.option3.value;
     const option4=this.getQuestions.option4.value;
     const answer=this.getQuestions.answer.value;
+    const marks=this.getQuestions.marks.value;
     const testCode=this.getQuestions.testCode.value;
   console.log('image path ', imageName)
-    this.quizService.addQuestion(question,this.selectedFile ? this.selectedFile:null,option1,option2,option3,option4,answer,testCode)
+    this.quizService.addQuestion(question,this.selectedFile ? this.selectedFile:null,option1,option2,option3,option4,answer,marks,testCode)
     .subscribe( data=>{
       this.loading = false;
   this.getAllQuestions(this.quizService.testDetails.testCode);
@@ -295,10 +292,11 @@ selectedFile=null;
     const Option3= this.testToEdit.Option3;
     const Option4=this.testToEdit.Option4;
     const answer=this.testToEdit.answer;
+    const marks=this.testToEdit.marks;
     const id=this.testToEdit.id;
     const testCode=this.testToEdit.testCode;
     console.log('edited image', ImageName)
-    this.quizService.updateQuestion(id,Qn,this.selectedFile ? this.selectedFile:null,Option1,Option2,Option3,Option4,answer,testCode).subscribe(
+    this.quizService.updateQuestion(id,Qn,this.selectedFile ? this.selectedFile:null,Option1,Option2,Option3,Option4,answer,marks,testCode).subscribe(
       data=>{
         this.loading = false;
         this.getAllQuestions(this.quizService.testDetails.testCode);

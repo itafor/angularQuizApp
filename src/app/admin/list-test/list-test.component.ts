@@ -31,6 +31,7 @@ export class ListTestComponent implements OnInit {
   testvalues:any=[];
   pushedTest:any=[];
   testTobeDeleted:any[];
+  testWithQtnIds:any=[];
   constructor(private quizService:QuizService, private route:Router, 
     private _activatedRoute:ActivatedRoute, config: NgbModalConfig,private toarster:ToastrManager,
     private modalService: NgbModal) {
@@ -111,6 +112,13 @@ allQuestionsCodes(){
 testToDelete(){
   this.testTobeDeleted = this.testLists.filter(itemA => !this.pushedTest.some(itemB => itemB.id === itemA.id));
   console.log('test to delete', this.testTobeDeleted);
+  this.pushedTest.forEach(item=>{
+    let idToStrg =String(item.id);
+    this.testWithQtnIds.push(idToStrg);
+  })
+
+  console.log('test ids not to del', this.testWithQtnIds);
+
 }
   getAllQuestions(code:any,noOfQn:number,duration:number,subject:string){
    console.log(subject)
@@ -204,22 +212,24 @@ testToDelete(){
 
       
    selectAllQuestions(event: { target: { checked: any; }; }) {
+   
     const checked = event.target.checked;
-    this.testTobeDeleted.forEach((item: { selected: any; id: any; }) =>{ 
+    this.testLists.forEach((item: { selected: any; id: any; }) =>{ 
      item.selected = checked;
      let toStrig=String(item.id)
      if(item.selected){
        if(this.ids.indexOf(toStrig) == -1){
+        //this.ids.splice(this.testTobeDeleted.indexOf(toStrig),1) 
         this.ids.push(toStrig);
        }
      } else{
         this.ids=[];
      }
-    console.log('lengt',this.ids)
+    console.log('the ids',this.ids)
     });
-
+  
     console.log('pushed test',   this.pushedTest , '---' , this.testLists);
-   
+    console.log('test to delete', this.testTobeDeleted);
   }
 
    getId(event:any){
@@ -234,6 +244,12 @@ testToDelete(){
    }
 
    multiDelete(){
+    const found = this.testTobeDeleted.some(r=> this.ids.indexOf(r) >= 0)
+    if(found){
+      this.toarster.warningToastr('The Test you are about to delete has some Questions that depends on it,First delete the questions', null, { toastTimeout: 4000 })
+      console.log(found);
+    }else{
+
      if(this.ids.length >=1){
     this.ids.forEach((id: number)=>{
       this.quizService.deleteTest(id).subscribe(
@@ -248,9 +264,9 @@ testToDelete(){
     })
     this.multiDeleteFlag();
    }else{
-    this.toarster.warningToastr('The Test you are about to delete has some Questions that depends on it,First delete the questions', null, { toastTimeout: 4000 })
+    this.toarster.errorToastr('Please select a at least one question to delete ', null, { toastTimeout: 3000 })
    }
-   
+  }
   }
 
   multiDeleteFlag(){

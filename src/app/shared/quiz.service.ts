@@ -10,7 +10,7 @@ export class QuizService {
 readonly rootUrl:string = 'http://127.0.0.1:8000/api/';
 readonly imageUrl:string='http://127.0.0.1:8000/';
 qns:any[];
-seconds:number;
+
 timer;
 qnProgress:number;
 questionDetailsCode:any;
@@ -19,7 +19,7 @@ theTestCode:any;
 
 
   constructor(private http:HttpClient) {
-    this.displayTimeElapse();
+  
    }
 
  
@@ -32,6 +32,7 @@ theTestCode:any;
     option3: string,
     option4: string,
     answer: string,
+    marks: number,
     testCode:string,
   ) {
     return this.http.post<any>(this.rootUrl +  `addNewQuestion`, {
@@ -42,6 +43,7 @@ theTestCode:any;
         option3,
         option4,
         answer,
+        marks,
         testCode,
       })
       .pipe();
@@ -80,12 +82,7 @@ theTestCode:any;
     .pipe();
   }
 
-  displayTimeElapse(){
-    let hour=Math.floor(this.seconds/360);
-    let minutes = Math.floor(this.seconds / 60);
-    let seconds = Math.floor(this.seconds % 60);
-    return hour + ':' + minutes + ':' + seconds
-  }
+ 
 
   
   addTest(
@@ -130,10 +127,11 @@ theTestCode:any;
     Option3:string,
     Option4:string,
     answer:string,
+    marks:string,
     testCode:string
     ){
     return this.http.put(this.rootUrl + `update-question/` + id, 
-    {Qn,ImageName,Option1,Option2,Option3,Option4,answer,testCode})
+    {Qn,ImageName,Option1,Option2,Option3,Option4,answer,marks,testCode})
     .pipe();
   }
 

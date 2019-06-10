@@ -2,98 +2,8 @@
 
 <div class="container-fluid" id="main">
     <div class="row">
-      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-        <div class="sidebar-sticky">
-          <ul class="nav flex-column">
-            <li class="nav-item">
-              <a class="nav-link active" href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  class="feather feather-home">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                  <polyline points="9 22 9 12 15 12 15 22">
-                  </polyline>
-                </svg>
-                <span data-feather="home"></span>
-                Dashboard <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="file"></span>
-                Orders
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span class="glyphicon glyphicon-log-in"></span>
-                <span data-feather="shopping-cart"></span>
-                Questions
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="users"></span>
-                Customers
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="bar-chart-2"></span>
-                Reports
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  class="feather feather-layers">
-                  <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                  <polyline points="2 17 12 22 22 17"></polyline>
-                  <polyline points="2 12 12 17 22 12"></polyline>
-                </svg>
-                <span data-feather="layers"></span>
-                Integrations
-              </a>
-            </li>
-          </ul>
-  
-          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Saved reports</span>
-            <a class="d-flex align-items-center text-muted" href="#">
-              <span data-feather="plus-circle"></span>
-            </a>
-          </h6>
-          <ul class="nav flex-column mb-2">
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="file-text"></span>
-                Current month
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="file-text"></span>
-                Last quarter
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="file-text"></span>
-                Social engagement
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="file-text"></span>
-                Year-end sale
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-  
-      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+     
+      <main role="main" class="col-md-12">
         <div
           class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Dashboard</h1>
@@ -101,45 +11,33 @@
             <div class="btn-group mr-2">
                 <a [routerLink]="['/testmgt']"><button type="button" class="btn btn-sm btn-outline-secondary">Add Test</button></a>
                 <a [routerLink]="['/testList']"> <button type="button" class="btn btn-sm btn-outline-secondary">List Test</button></a>
-              <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
             </div>
-            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-              <span data-feather="calendar"></span>
-              This week
-            </button>
           </div>
         </div>
-        <div class="container" >
-          <div class="card">
+   
+          <div class="card" style="margin-left: 20px; margin-right:20px;">
             <div class="card-header">
-              <h2>Section title</h2>
+           <div class="card-title float float-left" ><span>Count down: {{displayTimeElapse()}}</span> <span *ngIf="duration !=undefined">{{"Duration: " + duration}} Minutes</span>
+          <span>{{"Remaining Duration: " + remainingDuration}} Minutes</span>
+          </div>
+           <div class="float float-right" style="margin-right: 20px;"><span *ngIf="correct !=0">{{correct}}</span> <span *ngIf="displayFinalResult">{{displayFinalResult}}</span> {{" Marks: " + quizService.qns[pos].marks}} </div>
+          
             </div>
             <div class="card-body" *ngIf="quizService.qns">
-           <span class="card-title">Time Remaining: {{quizService.displayTimeElapse()}}</span>
-           <div *ngIf="displayFinalResult !=''">{{displayFinalResult}}</div>
-           <div *ngIf="testCompletedMessage !=''">test completed</div>
-           <p *ngIf="correct !=0">
-             {{correct}}
-           </p>
-
-           <ng-container>
-              <h4 class="questions" >{{quizService.qns[pos].Qn}}</h4>
-          </ng-container>
-
           <div class="col-md-12">
-              <div class="col-md-6 float-left">
-                  <div *ngIf="quizService.qns[pos].ImageName !=null">
+              <div class="col-md-6 float-left lefteDiv">
+                <div>
+                    <p class="questions" >{{quizService.qns[pos].Qn}}</p>
+                </div>
+
+                  <div *ngIf="quizService.qns[pos].ImageName !=null" class="image">
                       <img class="center" [src]="quizService.rootUrl + 'files/' + quizService.qns[pos].ImageName" style="width:350px; height:200px;">
                     </div>
               </div>
               <div  class="col-md-6 float-right">
-                  
-        
                 <form [formGroup]="form" (ngSubmit)="checkAnswer()" >
-                  
                     <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label for="optiona">  A
                             <input  type="radio"
                             [formControl]="form.controls['choices']" 
@@ -149,7 +47,7 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label> B
                             <input type='radio'  [formControl]="form.controls['choices']" 
                             formControlName="choices" value="B">
@@ -159,7 +57,7 @@
                   </div>
     
                   <div class="row">
-                      <div class=" col-md-6">
+                      <div class=" col-md-12">
                           <label>C
                               <input type='radio'  [formControl]="form.controls['choices']" 
                               formControlName="choices" value="C">
@@ -169,7 +67,7 @@
                     </div>
   
                     <div class="row">
-                        <div class=" col-md-6">
+                        <div class=" col-md-12">
                             <label>D
                                 <input type='radio'  [formControl]="form.controls['choices']" 
                                 formControlName="choices" value="D">
@@ -178,8 +76,8 @@
                         </div>
                       </div>
                   <div class="row">
-                    <div class=" col-md-6">
-                    <button class="submitButton btn btn-outline-primary" [disabled]="!form.valid" > Next Question</button>
+                    <div class=" col-md-6" style="margin-top: 30px;">
+                    <button class="submitButton btn btn-outline-success" [disabled]="!form.valid" > Next Question</button>
                     </div>
                   </div>
                 </form>
@@ -190,7 +88,7 @@
           </div>
   
   
-        </div>
+        <!-- </div> -->
       </main>
     </div>
   </div>

@@ -99,13 +99,9 @@
             <div class="btn-group mr-2">
                 <a [routerLink]="['/testmgt']"><button type="button" class="btn btn-sm btn-outline-secondary">Add Test</button></a>
                 <a [routerLink]="['/testList']"> <button type="button" class="btn btn-sm btn-outline-secondary">List Test</button></a>
-              <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+                <a [routerLink]="['/participant']"><button type="button" class="btn btn-sm btn-outline-secondary">Take Test</button></a>
               <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
             </div>
-            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-              <span data-feather="calendar"></span>
-              This week
-            </button>
           </div>
         </div>
   
@@ -140,6 +136,7 @@
                     <th>OPtion C</th>
                     <th>OPtion D</th>
                     <th>Answer</th>
+                    <th>Mark</th>
                     <th>Test Code</th>
                     <th colspan="2">Action</th>
                   </tr>
@@ -155,6 +152,7 @@
                         <td>{{test.Option3 }}</td>
                         <td>{{test.Option4 }}</td>
                         <td>{{test.answer }}</td>
+                        <td>{{test.marks }}</td>
                         <td>{{test.testCode }}</td>
                        
                        <td> <button class="btn btn-lg btn-outline-primary btn-sm" (click)="openModalToEditQuestion(contentToEdit,test)"><i class="fa fa-edit"  ngbTooltip="Edit Question"></i></button></td>
@@ -252,10 +250,17 @@
                               </select>
                             </div>
                             <div class="form-group col-md-6">
-                              <label for="inputPassword4">Test Code</label>
-                              <input id="icon_telephone" type="text" class="form-control" [formControl]="addQuestionForm.controls['testCode']" [(ngModel)]="quizService.testDetails.testCode" disabled>
+                              <label for="inputPassword4">Marks</label>
+                              <input id="icon_telephone" type="number" class="form-control" [formControl]="addQuestionForm.controls['marks']" [(ngModel)]="quizService.testDetails.marks" >
                             </div>
                           </div>
+
+                          <div class="form-row">
+                              <div class="form-group col-md-6">
+                                <!-- <label for="inputPassword4">Test Code</label> -->
+                                <input id="icon_telephone" type="hidden" class="form-control" [formControl]="addQuestionForm.controls['testCode']" [(ngModel)]="quizService.testDetails.testCode" disabled>
+                              </div>
+                            </div>
                           <div class="row">
                               <div class="col-md-12" >
                                 <button class="form-control btn-submit btn btn-outline-primary mb-2 mr-2" [disabled]="!addQuestionForm.valid" type="submit"><i *ngIf="loading"
@@ -339,9 +344,14 @@
                                 <option value="D">D</option>
                               </select>
                             </div>
+
                             <div class="form-group col-md-6">
-                              <label for="inputPassword4">Test Code</label>
-                              <input id="icon_telephone" type="text" class="form-control" #testCode="ngModel" name="testCode" [(ngModel)]="testToEdit.testCode" disabled>
+                                <label for="inputPassword4">Marks</label>
+                                <input id="icon_telephone" type="number" class="form-control" #marks="ngModel" name="marks" [(ngModel)]="testToEdit.marks" >
+                              </div>
+                            <div class="form-group col-md-6">
+                              <label for="inputPassword4"></label>
+                              <input id="icon_telephone" type="hidden" class="form-control" #testCode="ngModel" name="testCode" [(ngModel)]="testToEdit.testCode" disabled>
                             </div>
                           </div>
                           <div class="row">

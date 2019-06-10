@@ -1,3 +1,7 @@
+* {
+    padding: 0;
+    margin: 0;
+}
 .questions{
     background-color: #ffffff; 
     color: #000000;
@@ -5,9 +9,120 @@
     width: 100%;
     height: auto;
     padding: 20px;
+    margin-bottom:20px;
 }
 .submitButton{
     width: 100%;
     height: 50px;
     font-size: 24px;
 }
+.lefteDiv{
+    border-right: 1px solid gray;
+}
+label{
+    display: block;
+    max-width: 100%;
+    border: 1px solid gray;
+    padding-left: 20px;
+    min-height: 21px;
+    font-weight: normal;
+    cursor: pointer;
+   margin: 10px;
+   border-radius: 5px;
+}
+
+input[type="radio"]{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right:5px;
+    margin-left:5px;
+    line-height: normal;
+}
+span {
+    display: inline-block;
+    padding: 7px;
+    margin: 0 0 15px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    word-break: break-all;
+    word-wrap: break-word;
+    color: #333333;
+    border-radius: 0;
+}
+
+div p {
+    margin-top: 5px;
+    font-family: roboto,sans-serif;
+    font-size: 13px;
+    color: #333;
+}
+.image{
+    padding: 20px;
+}
+/* p {
+    display: block;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0;
+    -webkit-margin-end: 0;
+}
+p {
+    display: block;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0;
+    -webkit-margin-end: 0;
+}
+p {
+    margin: 0 0 10.5px;
+} */
+
+/* .pre-default {
+    display: block;
+    padding: initial;
+    margin: initial;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: initial;
+    word-break: break-all;
+    word-wrap: break-word;
+    color: initial;
+    background-color: inherit;
+    border: 0;
+    border-radius: 0;
+} */
+/* input {
+    padding: 1px 0px;
+} */
+/* user agent stylesheet
+input {
+    -webkit-appearance: textfield;
+    background-color: white;
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    padding: 1px;
+    border-width: 2px;
+    border-style: inset;
+    border-color: initial;
+    border-image: initial;
+}
+
+
+
+input[type="radio" i] {
+    -webkit-appearance: radio;
+    box-sizing: border-box;
+} */
+/* user agent stylesheet
+input[type="radio"] {
+    background-color: initial;
+    cursor: default;
+    margin: 3px 0.5ex;
+    padding: initial;
+    border: initial;
+} */
+/* .radio label, .checkbox label {
+    min-height: 21px;
+    padding-left: 20px;
+    margin-bottom: 0;
+    font-weight: normal;
+    cursor: pointer;
+} */

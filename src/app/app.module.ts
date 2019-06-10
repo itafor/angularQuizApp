@@ -22,6 +22,7 @@ import { TestmanagementComponent } from './admin/testmanagement/testmanagement.c
 import { ListTestComponent } from './admin/list-test/list-test.component';
 import { ListQuestionsComponent } from './admin/list-questions/list-questions.component';
 import { ParticipantsComponent } from './participants/participants.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { ParticipantsComponent } from './participants/participants.component';
     TestmanagementComponent,
     ListTestComponent,
     ListQuestionsComponent,
-    ParticipantsComponent
+    ParticipantsComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

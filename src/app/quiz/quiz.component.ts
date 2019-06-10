@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, Optional,ElementRef, ViewChild,Inject  } from '@angular/core';
 import { QuizService } from '../shared/quiz.service';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import { ToastrManager } from 'ng6-toastr-notifications';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -21,25 +21,65 @@ pos:number=0;
 correct:number=0;
 displayFinalResult:any='';
 testCompletedMessage:any='';
-  constructor(private quizService:QuizService, route:Router,
+theTestDetail:any=[];
+duration:number;
+hours:number;
+minnutes:number;
+seconds:number;
+time:any;
+remainingDuration:number;
+  constructor(private quizService:QuizService, route:Router,private toarster:ToastrManager,
     private elem: ElementRef, private fb: FormBuilder,private _activatedRoute:ActivatedRoute) {
-    
+      
      }
 
   ngOnInit() {
     if(this.quizService.theTestCode){
       this.getQuix(this.quizService.theTestCode);
     }
-    this.opts();
     this.quizFormField();
-
-
     let code:string = this._activatedRoute.snapshot.params['Code'];
     this.quizService.questionDetailsCode=code;
     if(code){
       this.getAllQuestions(code);
-      this.quizService.displayTimeElapse();
+     this.testDetails(code);
     }
+    this.displayTimeElapse();
+  }
+
+  displayTimeElapse(){
+  localStorage.setItem('hours',JSON.stringify(Math.floor(this.seconds/360)));
+  let  hours=JSON.parse(localStorage.getItem('hours'));
+  localStorage.setItem('minutes',JSON.stringify(Math.floor(this.seconds / 60)));
+  let minnutes =JSON.parse(localStorage.getItem('minutes'));
+  localStorage.setItem('seconds',JSON.stringify(Math.floor(this.seconds % 60)));
+  let seconds  =JSON.parse(localStorage.getItem('seconds'));
+  localStorage.setItem('remainingDuration',JSON.stringify(this.duration - minnutes));
+   this.remainingDuration =JSON.parse(localStorage.getItem('remainingDuration'));
+  localStorage.setItem('countDown',JSON.stringify(hours + ':' + minnutes + ':' + seconds));
+  this.time =JSON.parse(localStorage.getItem('countDown'));
+   return  this.time;
+  }
+
+  timeAlert(time:number){
+    switch(time){
+      case 58:
+           this.toarster.warningToastr('You have 58 Minutes remaining', null, { toastTimeout: 3000 });
+      break;  
+}
+  }
+
+  testDetails(code:any){
+    this.quizService.getTestDetail(code).subscribe(
+      data=>{
+        this.theTestDetail=data;
+        console.log('the test details', this.theTestDetail)
+        this.duration=this.theTestDetail && this.theTestDetail.duration ? Number(this.theTestDetail.duration): null;
+      },
+      error=>{
+        console.log(error)
+      }
+    )
   }
 
   getAllQuestions(code:any){
@@ -47,6 +87,7 @@ testCompletedMessage:any='';
     this.quizService.getAllQuestions(code).subscribe(
       data=>{
         this.quizService.qns = <any[]>data;
+        //this. setTimer();
       },
       error=>{
         console.log(error);
@@ -65,7 +106,7 @@ testCompletedMessage:any='';
   }
 
   getQuix(code:any){
-    this.quizService.seconds=0;
+    this.seconds=0;
     this.quizService.qnProgress=0;
     this.quizService.getAllQuestions(code).subscribe(
       (data:any)=>{
@@ -76,29 +117,10 @@ testCompletedMessage:any='';
     (error)=>{
       console.log(error)
     })
-  }
-
-  opts(){
-   this.quizService.getQuestions().subscribe(
-    (data:any)=>{
-
-    for (var i=0; i<data.length; i++){
-          delete data[i].Qn;
-          delete data[i].ImageName;
-          delete  data[i].answer;
-          delete data[i].created_at;
-          delete data[i].remember_token;
-          delete data[i].testCode;
-          delete data[i].updated_at;
-          delete data[i].id;
-          this.options.push(data[i])
-    }
-    console.log(this.options)
    this.renderQuestions();
-
-   });
   }
 
+  
   renderQuestions(){
   if(this.pos >=this.quizService.qns.length){
     this.displayFinalResult="You got " + this.correct + " of " + this.quizService.qns.length + " questions correct";
@@ -107,10 +129,8 @@ testCompletedMessage:any='';
     this.correct=0;
     return false;
   }
-  this.displayFinalResult="Questions " + (this.pos + 1) + " of " + this.quizService.qns.length;
+  this.displayFinalResult="Questions: " + (this.pos + 1) + " of " + this.quizService.qns.length;
   }
-
-  
 
   checkAnswer(){
     if(this.form.invalid){
@@ -123,7 +143,7 @@ testCompletedMessage:any='';
       clearInterval(this.quizService.timer);
     }
 		 	if(choices === this.quizService.qns[this.pos].answer){
-         this.correct++;
+       this.correct += Number(this.quizService.qns[this.pos].marks);
          console.log('correct')
 		 	}
 
@@ -134,7 +154,7 @@ testCompletedMessage:any='';
 
   setTimer(){
     this.quizService.timer=setInterval(()=>{
-      this.quizService.seconds++;
+      this.seconds++;
     },1000)
   }
 

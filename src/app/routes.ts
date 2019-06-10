@@ -9,6 +9,7 @@ import { TestmanagementComponent } from './admin/testmanagement/testmanagement.c
 import { ListTestComponent } from './admin/list-test/list-test.component';
 import { ListQuestionsComponent } from './admin/list-questions/list-questions.component';
 import { ParticipantsComponent } from './participants/participants.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 export const appRoutes : Routes = [
 {path:'register',component:RegisterComponent},
@@ -21,6 +22,6 @@ export const appRoutes : Routes = [
 {path:'questionList',component:ListQuestionsComponent, canActivate:[AuthGuard]},
 {path:'participant',component:ParticipantsComponent, canActivate:[AuthGuard]},
 {path:'testmgt/:Code',component:ListQuestionsComponent},
-
+{path:'**', component:PageNotFoundComponent},//when the user enters route that does not exist
 {path:'', redirectTo:'/register',pathMatch:'full'}
 ];
