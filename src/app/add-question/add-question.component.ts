@@ -16,8 +16,8 @@ export class AddQuestionComponent implements OnInit {
   subject:any;
   numberOfQtns:any;
   constructor(
-    private quizService:QuizService,
-    private fb: FormBuilder,private _activatedRoute:ActivatedRoute
+    public quizService:QuizService,
+    public fb: FormBuilder,public _activatedRoute:ActivatedRoute
     ) { }
 
     questionsFormFields() {

@@ -32,9 +32,9 @@ export class ListTestComponent implements OnInit {
   pushedTest:any=[];
   testTobeDeleted:any[];
   testWithQtnIds:any=[];
-  constructor(private quizService:QuizService, private route:Router, 
-    private _activatedRoute:ActivatedRoute, config: NgbModalConfig,private toarster:ToastrManager,
-    private modalService: NgbModal) {
+  constructor(public quizService:QuizService, public route:Router, 
+    public _activatedRoute:ActivatedRoute, config: NgbModalConfig, public toarster:ToastrManager,
+    public modalService: NgbModal) {
       config.backdrop = 'static';
     config.keyboard = false;
    }

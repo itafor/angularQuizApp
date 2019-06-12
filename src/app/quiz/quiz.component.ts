@@ -28,8 +28,8 @@ minnutes:number;
 seconds:number;
 time:any;
 remainingDuration:number;
-  constructor(private quizService:QuizService, route:Router,private toarster:ToastrManager,
-    private elem: ElementRef, private fb: FormBuilder,private _activatedRoute:ActivatedRoute) {
+  constructor(public quizService:QuizService, route:Router, public toarster:ToastrManager,
+    public elem: ElementRef, public fb: FormBuilder, public _activatedRoute:ActivatedRoute) {
       
      }
 

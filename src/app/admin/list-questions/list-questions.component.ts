@@ -48,10 +48,10 @@ questionsList:any[];
 @Input()
 subject:any;
 selectedFile=null;
-  constructor(private quizService:QuizService,
-    private _activatedRoute:ActivatedRoute, private fb: FormBuilder,
-    config: NgbModalConfig,private toarster:ToastrManager,private http:HttpClient,
-    private modalService: NgbModal) { 
+  constructor(public quizService:QuizService,
+    public _activatedRoute:ActivatedRoute, public fb: FormBuilder,
+    config: NgbModalConfig,public toarster:ToastrManager,public http:HttpClient,
+    public modalService: NgbModal) { 
       config.backdrop = 'static';
       config.keyboard = false;
     }

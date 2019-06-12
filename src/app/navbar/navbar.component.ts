@@ -9,7 +9,7 @@ import { QuizService } from '../shared/quiz.service';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private quizService:QuizService, private route:Router) { }
+  constructor(public quizService:QuizService, public route:Router) { }
 
   ngOnInit() {
   }

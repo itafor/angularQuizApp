@@ -18,7 +18,7 @@ testDetails:any;
 theTestCode:any;
 
 
-  constructor(private http:HttpClient) {
+  constructor(public http:HttpClient) {
   
    }
 

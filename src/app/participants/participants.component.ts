@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class ParticipantsComponent implements OnInit {
   testLists:any=[];
-  constructor(private quizService:QuizService, private route:Router,) { }
+  constructor(public quizService:QuizService, public route:Router,) { }
 
   ngOnInit() {
     this.displayTest()

@@ -11,9 +11,9 @@ import { ToastrManager } from 'ng6-toastr-notifications';
 })
 export class TestmanagementComponent implements OnInit {
   public addTestForm:FormGroup;
-  constructor(private quizService:QuizService, 
-    route:Router,private toarster:ToastrManager,
-    private fb: FormBuilder) { }
+  constructor(public quizService:QuizService, 
+    route:Router,public toarster:ToastrManager,
+    public fb: FormBuilder) { }
 
   ngOnInit() {
     this.testFormFields();
