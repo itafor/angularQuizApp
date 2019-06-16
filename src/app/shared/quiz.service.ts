@@ -10,7 +10,7 @@ export class QuizService {
 readonly rootUrl:string = 'http://127.0.0.1:8000/api/';
 readonly imageUrl:string='http://127.0.0.1:8000/';
 qns:any[];
-
+seconds:number;
 timer;
 qnProgress:number;
 questionDetailsCode:any;
@@ -60,12 +60,10 @@ theTestCode:any;
   insertParticipant(
     name:string,
     email:string,
-    score:number,
-    TimeSpent:string,
-    testCode:string
+    role:number,
     ){
     return this.http.post<any>(this.rootUrl + `insertParticipants`, 
-    {name,email,score,TimeSpent,testCode})
+    {name,email,role})
     .pipe();
   }
 
@@ -100,15 +98,33 @@ theTestCode:any;
       .pipe();
   }
 
+  submitResult(
+    email: string,
+    code: string,
+    score: number,
+    maxScore: number,
+  ) {
+    return this.http.post<any>(this.rootUrl +  `submit-Result`, {
+      email,
+      code,
+      score,
+      maxScore,
+      })
+      .pipe();
+  }
 
+  
   getTest(){
     return this.http.get(this.rootUrl + 'get-test')
   }
 
-  getAllQuestions(code:any){
-    return this.http.get(this.rootUrl + 'display-questions/' + code)
+  getAllQuestions(code:any, email:any){
+    return this.http.get(this.rootUrl + 'display-questions/' + `${code}/` + `${email}` )
   }
 
+  dispAllQuestions(code:any){
+    return this.http.get(this.rootUrl + 'show-questions/' + `${code}`)
+  }
   deleteQuestion(_id: number) {
     return this.http.delete(this.rootUrl + `delete-question/` + _id);
   }

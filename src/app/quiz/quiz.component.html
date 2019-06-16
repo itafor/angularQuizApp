@@ -1,26 +1,70 @@
-<app-navbar></app-navbar>
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow" >
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Quiz App</a>
+    <a class="nav-link" *ngIf="studentEmail" style="color: #fff">Welcome {{studentName}} ({{studentEmail}})</a>
+
+    <ul class="navbar-nav">
+        <li class="nav-item text-nowrap">
+            
+          </li>
+      <li class="nav-item text-nowrap">
+        <a class="nav-link" (click)="signout()">Sign out</a>
+      </li>
+    </ul>
+  </nav>
 
 <div class="container-fluid" id="main">
+
+    
     <div class="row">
-     
-      <main role="main" class="col-md-12">
+      
+
+      <main role="main" class="col-md-12" >
+
+<div  class="col-md-7 float-right"  *ngIf="!quizService.qns " >
+   <form [formGroup]="startTestForm" (ngSubmit)="start()">
+              <div class="row">
+                <div class="col-md-4">
+                    <span for="optiona">Test Code</span>
+                        <input  type="text"
+                        [formControl]="startTestForm.controls['code']" 
+                        formControlName="code" class="form-control" >
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                    <span for="optiona">Email</span>
+                        <input  type="email"
+                        [formControl]="startTestForm.controls['email']" 
+                        formControlName="email"  class="form-control" [(ngModel)]="studentEmail">
+                </div>
+              </div>
+              <div class="row">
+                <div class=" col-md-6" style="margin-top: 30px;">
+                <button class="btn btn-outline-success btn-lg" [disabled]="!startTestForm.valid" > Start Test</button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+        <div class="col-md-12"  *ngIf="quizService.qns">
+
+       
         <div
           class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">Dashboard</h1>
+          <button type="button" class="btn btn-sm btn-outline-secondary"><h1 class="h2">TEST TITLE : {{testTitle}}</h1></button>
           <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group mr-2">
-                <a [routerLink]="['/testmgt']"><button type="button" class="btn btn-sm btn-outline-secondary">Add Test</button></a>
-                <a [routerLink]="['/testList']"> <button type="button" class="btn btn-sm btn-outline-secondary">List Test</button></a>
+                <button type="button" class="btn btn-sm btn-outline-secondary"><span>Timer: {{displayTimeElapse()}}</span> <span *ngIf="duration !=undefined">{{"Duration: " + duration}} Minutes</span></button>
+                <button type="button" class="btn btn-sm btn-outline-secondary"> <span>{{"Remaining Duration: " + remainingDuration}} Minutes</span></button>
             </div>
           </div>
         </div>
    
-          <div class="card" style="margin-left: 20px; margin-right:20px;">
+          <div class="card" style="margin-left: 20px; margin-right:20px;" *ngIf="quizService.qns">
             <div class="card-header">
-           <div class="card-title float float-left" ><span>Count down: {{displayTimeElapse()}}</span> <span *ngIf="duration !=undefined">{{"Duration: " + duration}} Minutes</span>
-          <span>{{"Remaining Duration: " + remainingDuration}} Minutes</span>
+           <div class="card-title float float-left" ><span>Test Code: {{theTestCode}}</span>
           </div>
-           <div class="float float-right" style="margin-right: 20px;"><span *ngIf="correct !=0">{{correct}}</span> <span *ngIf="displayFinalResult">{{displayFinalResult}}</span> {{" Marks: " + quizService.qns[pos].marks}} </div>
+           <div class="float float-right" style="margin-right: 20px;"><span *ngIf="correct">{{correct}}</span> <span *ngIf="displayFinalResult">{{displayFinalResult}}</span> {{" | Marks: " + quizService.qns[pos].marks}} </div>
           
             </div>
             <div class="card-body" *ngIf="quizService.qns">
@@ -88,7 +132,7 @@
           </div>
   
   
-        <!-- </div> -->
+        </div> 
       </main>
     </div>
   </div>

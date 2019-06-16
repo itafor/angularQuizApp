@@ -33,7 +33,6 @@ export class ParticipantsComponent implements OnInit {
         'Are you ready to take this test?, once you start, you can not pause or restart'
       )
     ) {
-console.log(code)
       this.quizService.theTestCode = code;
       this.route.navigate(['/quiz', this.quizService.theTestCode]);
   }

@@ -21,6 +21,8 @@ export class ListTestComponent implements OnInit {
   displayDuration:number;
   subj:string;
   closeResult:string;
+  students:any;
+  studentEmail:any;
   testToEdit:any;
   confirmTest:any=[];
   ids:any=[];
@@ -69,6 +71,8 @@ export class ListTestComponent implements OnInit {
       }
     }
   ngOnInit() {
+    this.students=JSON.parse(localStorage.getItem('participant'));
+    this.studentEmail=this.students && this.students.email ? this.students.email : '';
     this.displayTest()
     this. getListedQns();
     this.numberOfQns();
@@ -121,8 +125,8 @@ testToDelete(){
 
 }
   getAllQuestions(code:any,noOfQn:number,duration:number,subject:string){
-   console.log(subject)
-    this.quizService.getAllQuestions(code).subscribe(
+    this.studentEmail=this.students && this.students.email ? this.students.email : '';
+    this.quizService.getAllQuestions(code,this.studentEmail).subscribe(
       data=>{
         this.listedQuestions = data;
         this.numberOfQuestions=noOfQn;
@@ -181,7 +185,9 @@ testToDelete(){
       
 
         deleteTest(id:number,testCode:any){
-           this.quizService.getAllQuestions(testCode).subscribe(
+    this.studentEmail=this.students && this.students.email ? this.students.email : '';
+
+           this.quizService.getAllQuestions(testCode,this.studentEmail).subscribe(
              resp=>{
              this.confirmTest=resp;
            if(this.confirmTest.length >=1){

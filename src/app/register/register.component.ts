@@ -19,10 +19,7 @@ export class RegisterComponent implements OnInit {
           this.participantForm=this.fb.group({
           name: [null, Validators.compose([Validators.required])],
           email: [null, Validators.compose([Validators.required])],
-          score: [null],
-          TimeSpent: [null],
-          testCode:[null],
-
+          role: [null, Validators.compose([Validators.required])]
         })
       }
       get getparticipantForm(){
@@ -38,11 +35,9 @@ export class RegisterComponent implements OnInit {
     }
     const name=this.getparticipantForm.name.value;
     const email=this.getparticipantForm.email.value;
-    const score=this.getparticipantForm.score.value;
-    const TimeSpent=this.getparticipantForm.TimeSpent.value;
-    const testCode=this.getparticipantForm.testCode.value;
+    const role=this.getparticipantForm.role.value;
     console.log(email + name)
-    this.quizService.insertParticipant(name,email,score,TimeSpent,testCode).subscribe(
+    this.quizService.insertParticipant(name,email,role).subscribe(
       data=>{
         localStorage.clear();
         localStorage.setItem('participant',JSON.stringify(data))

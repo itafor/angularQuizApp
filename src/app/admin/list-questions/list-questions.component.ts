@@ -13,6 +13,8 @@ import { HttpClient } from '@angular/common/http';
   providers: [NgbModalConfig, NgbModal]
 })
 export class ListQuestionsComponent implements OnInit {
+  students:any;
+  studentEmail:any;
   listedQuestions:any=[];
   presentNumberOfQuest:number;
   remainingNumberOfQtn:number;
@@ -117,6 +119,7 @@ selectedFile=null;
     }
 
   ngOnInit() {
+    this.students=JSON.parse(localStorage.getItem('participant'));
     let code:string = this._activatedRoute.snapshot.params['Code'];
     localStorage.setItem('testCode',JSON.stringify(code));
     let retrievedCode=JSON.parse(localStorage.getItem('testCode'))
@@ -159,7 +162,9 @@ selectedFile=null;
   get getQuestions() { return this.addQuestionForm.controls; }
   
   getAllQuestions(code:any){
-     this.quizService.getAllQuestions(code).subscribe(
+    this.studentEmail=this.students && this.students.email ? this.students.email : '';
+
+     this.quizService.dispAllQuestions(code).subscribe(
        data=>{
          this.listedQuestions = data;
        this.countQuestion();

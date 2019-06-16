@@ -13,7 +13,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 
 export const appRoutes : Routes = [
 {path:'register',component:RegisterComponent},
-{path:'quiz/:Code',component:QuizComponent, canActivate:[AuthGuard]},
+//{path:'quiz/:Code',component:QuizComponent, canActivate:[AuthGuard]},
+{path:'quiz',component:QuizComponent, canActivate:[AuthGuard]},
 {path:'result',component:ResultComponent,canActivate:[AuthGuard]},
 {path:'questions/:Code',component:AddQuestionComponent},
 {path:'admin',component:AdminpanelComponent, canActivate:[AuthGuard]},

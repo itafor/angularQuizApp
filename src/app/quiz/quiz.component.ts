@@ -12,6 +12,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class QuizComponent implements OnInit{
   
 form:FormGroup;
+startTestForm:FormGroup;
+students:any;
+timer;
+studentEmail:any;
+studentName:any;
 options:any=[];
 optOne:any;
 test:any;
@@ -19,37 +24,42 @@ choices : any;
 choice:any;
 pos:number=0;
 correct:number=0;
-displayFinalResult:any='';
+displayFinalResult:any;
 testCompletedMessage:any='';
 theTestDetail:any=[];
+testCode:any;
 duration:number;
+theTestCode:any;
+testTitle:string;
 hours:number;
 minnutes:number;
-seconds:number;
-time:any;
+seconds:number = 0;
+time:number;
 remainingDuration:number;
-  constructor(public quizService:QuizService, route:Router, public toarster:ToastrManager,
-    public elem: ElementRef, public fb: FormBuilder, public _activatedRoute:ActivatedRoute) {
+  constructor(public quizService:QuizService, private route:Router, public toarster:ToastrManager,
+    public elem: ElementRef, public fb: FormBuilder, public _activatedRoute:ActivatedRoute,) {
       
      }
 
   ngOnInit() {
-    if(this.quizService.theTestCode){
-      this.getQuix(this.quizService.theTestCode);
-    }
+   
+    this.students=JSON.parse(localStorage.getItem('participant'));
+    this.studentEmail=this.students && this.students.email ? this.students.email : '';
+    this.studentName=this.students && this.students.name ? this.students.name : '';
+
     this.quizFormField();
-    let code:string = this._activatedRoute.snapshot.params['Code'];
-    this.quizService.questionDetailsCode=code;
-    if(code){
-      this.getAllQuestions(code);
-     this.testDetails(code);
+    this.startFormField();
+    this.displayTimeElapse()
+    if(this.remainingDuration === 49){
+      this.postResult();
     }
-    this.displayTimeElapse();
+    console.log('remaining dura',this.remainingDuration)
   }
 
   displayTimeElapse(){
   localStorage.setItem('hours',JSON.stringify(Math.floor(this.seconds/360)));
   let  hours=JSON.parse(localStorage.getItem('hours'));
+  
   localStorage.setItem('minutes',JSON.stringify(Math.floor(this.seconds / 60)));
   let minnutes =JSON.parse(localStorage.getItem('minutes'));
   localStorage.setItem('seconds',JSON.stringify(Math.floor(this.seconds % 60)));
@@ -59,6 +69,33 @@ remainingDuration:number;
   localStorage.setItem('countDown',JSON.stringify(hours + ':' + minnutes + ':' + seconds));
   this.time =JSON.parse(localStorage.getItem('countDown'));
    return  this.time;
+  }
+
+  getAllQuestions(code:any,email:any){
+    this.seconds=0;
+    this.quizService.getAllQuestions(code,email).subscribe(
+      data=>{
+        localStorage.setItem('questions',JSON.stringify(data));
+
+        this.quizService.qns =JSON.parse(localStorage.getItem('questions'));
+        this.setTimer();
+        this.testDetails(this.testCode);
+        this.renderQuestions();
+      },
+      error=>{
+        this.toarster.warningToastr(error.error.warning,null, { toastTimeout: 4000 })
+        console.log(error.error.warning);
+      }
+    )
+    
+    }
+
+  setTimer(){
+   this.quizService.timer=setInterval(()=>{
+    this.seconds++;
+  },1000)
+  console.log('seeeeeeecond', this.seconds)
+
   }
 
   timeAlert(time:number){
@@ -75,6 +112,8 @@ remainingDuration:number;
         this.theTestDetail=data;
         console.log('the test details', this.theTestDetail)
         this.duration=this.theTestDetail && this.theTestDetail.duration ? Number(this.theTestDetail.duration): null;
+        this.testTitle=this.theTestDetail && this.theTestDetail.subjectName ? this.theTestDetail.subjectName: null;
+        this.theTestCode=this.theTestDetail && this.theTestDetail.testCode ? this.theTestDetail.testCode: null;
       },
       error=>{
         console.log(error)
@@ -82,18 +121,7 @@ remainingDuration:number;
     )
   }
 
-  getAllQuestions(code:any){
-    
-    this.quizService.getAllQuestions(code).subscribe(
-      data=>{
-        this.quizService.qns = <any[]>data;
-        //this. setTimer();
-      },
-      error=>{
-        console.log(error);
-      }
-    )
-    }
+  
 
   quizFormField() {
     this.form = this.fb.group({
@@ -105,29 +133,55 @@ remainingDuration:number;
     return this.form.controls;
   }
 
-  getQuix(code:any){
-    this.seconds=0;
-    this.quizService.qnProgress=0;
-    this.quizService.getAllQuestions(code).subscribe(
-      (data:any)=>{
-        this.quizService.qns = data;
-        this.setTimer();
-      console.log(data)
-    },
-    (error)=>{
-      console.log(error)
-    })
-   this.renderQuestions();
+  startFormField() {
+    this.startTestForm = this.fb.group({
+      code:[null, Validators.compose([Validators.required])],
+      email:[null, Validators.compose([Validators.required])]
+    });
   }
 
+  get getStartFormData(){
+    return this.startTestForm.controls;
+  }
+
+  start(){
+    this.testCode=this.getStartFormData.code.value;
+    const email=this.getStartFormData.email.value;
+    console.log( this.testCode + '- ' + email);
+    console.log('the code', this.testCode)
+    this.getAllQuestions( this.testCode,email);
+  }
+  // getQuix(code:any){
+  //   const email=this.getStartFormData.email.value;
+  //   this.seconds=0;
+  //   this.quizService.qnProgress=0;
+  //   this.quizService.getAllQuestions(code,email).subscribe(
+  //     (data:any)=>{
+  //       this.quizService.qns = data;
+  //       this.setTimer();
+  //     console.log(data)
+  //   },
+  //   (error)=>{
+  //     console.log(error)
+  //   })
+  //  this.renderQuestions();
+  // }
+
+  getMaxScore(){
+    let maxScore=0;
+   for(let i=0; i<this.quizService.qns.length; i++){
+    maxScore +=Number(this.quizService.qns[i].marks);
+   } 
+   return maxScore;
+  }
   
   renderQuestions(){
-  if(this.pos >=this.quizService.qns.length){
-    this.displayFinalResult="You got " + this.correct + " of " + this.quizService.qns.length + " questions correct";
-    this.testCompletedMessage="test completed";
+  if(this.pos ==this.quizService.qns.length){
+    this.displayFinalResult=" You got " + this.correct + " of " + this.quizService.qns.length + " questions correct";
    this.pos=0;
     this.correct=0;
-    return false;
+    this.postResult();
+    // return false;
   }
   this.displayFinalResult="Questions: " + (this.pos + 1) + " of " + this.quizService.qns.length;
   }
@@ -144,6 +198,7 @@ remainingDuration:number;
     }
 		 	if(choices === this.quizService.qns[this.pos].answer){
        this.correct += Number(this.quizService.qns[this.pos].marks);
+       localStorage.setItem('score',JSON.stringify(this.correct))
          console.log('correct')
 		 	}
 
@@ -152,15 +207,36 @@ remainingDuration:number;
       this.form.reset();
   }
 
-  setTimer(){
-    this.quizService.timer=setInterval(()=>{
-      this.seconds++;
-    },1000)
-  }
 
   removeFakeImagePath(imagePat:any){
     let rep=imagePat.replace('C:\fakepath','');
     return rep;
   }
 
+  postResult(){
+   
+    localStorage.setItem('maxScore',JSON.stringify(this.getMaxScore()));
+    const email=this.studentEmail;
+    const code=this.getStartFormData.code.value;
+    let score=JSON.parse(localStorage.getItem('score'))
+    const maxScore= JSON.parse(localStorage.getItem('maxScore'));
+    console.log(email + code)
+    this.quizService.submitResult(email,code,score,maxScore).subscribe(
+      data=>{
+        localStorage.setItem('result',JSON.stringify(data));
+        localStorage.setItem('participant',JSON.stringify(data))
+        localStorage.removeItem('questions');
+        this.route.navigate(['/result'])
+      },
+      (error)=>{
+        console.log(error);
+      }
+    )
+  }
+
+  signout(){
+    localStorage.clear();
+    clearInterval(this.quizService.timer);
+    this.route.navigate(['/register']);
+      }
 }
