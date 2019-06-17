@@ -1,4 +1,94 @@
 <app-navbar></app-navbar>
-<p>
-  result works!
-</p>
+
+<div class="container-fluid" id="main">
+    <div class="row">
+  
+      <main role="main" class="col-md-12">
+        <div
+          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h5 class="h2" *ngIf="testTitle">{{testTitle}}</h5>
+          <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group mr-2">
+              <a [routerLink]="['/testmgt']"><button type="button" class="btn btn-sm btn-outline-secondary">Add Test</button></a>
+              <a [routerLink]="['/testList']"> <button type="button" class="btn btn-sm btn-outline-secondary">List Test</button></a>
+              <a [routerLink]="['/participant']"><button type="button" class="btn btn-sm btn-outline-secondary">Take Test</button></a>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+              <span data-feather="calendar"></span>
+              This week
+            </button>
+          </div>
+        </div>
+  
+        <div class="container ">
+          <div class="card col-12">
+            <div class="card-header">
+                <h4 class="float float-left" *ngIf="theTestCode">Test code: {{theTestCode}}</h4>
+                <h4 class="float float-right"><button class="btn btn-lg btn-outline-danger btn-sm"  style="margin-right: 5px;"> Delete </button> <button class="btn btn-sm"><a [routerLink]="['/testmgt']"><i class="fa fa-plus"></i></a></button></h4>
+            </div>
+            <div class="card-body">
+  <div class="row" style="margin-top: 20px;">
+      <div class="container" *ngIf="resultList">
+          <div class="col-6 offset-3">
+            <h3 style="color: green;" class="text-center">
+              Test Summary
+              <hr>
+            </h3>
+<ul class="list-group" style="border: none; list-style-type: none; font-size: 20px; font-family: 'Times New Roman', Times, serif">
+  <li>TEST TITLE: {{testTitle}}</li>
+  <li>TEST CODE: {{theTestCode}}</li>
+  <li>TEST DURATION: {{duration}} mins.</li>
+  <li>MAX. MARKS: {{maximumScore}} </li>
+</ul>
+
+<h3 style="color: green;" class="text-center">
+    Attempted Students
+    <hr>
+  </h3>
+          </div>
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+               <td><input type="checkbox"  ></td>
+                <th>SN</th>
+                <th> Full Name</th>
+                <th> Email</th>
+                <th>Obtained Marks</th>
+                <th>Result (%)</th>
+                <th>Date Taken</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <ng-container *ngFor="let result of resultList; let i=index;">
+              <tbody>
+                <tr>
+                    <td><input type="checkbox" ></td>
+
+                  <td>{{i+1}}</td>
+                  <td>{{result.name }}</td>
+                  <td>{{result.email }}</td>
+                  <td>{{result.score }}</td>
+                  <td>{{ ((result.score/result.maxScore) * 100).toFixed(2)}} % </td>
+                  <td>{{result.created_at}} </td>
+                  <td class="actionBtn"> <button class="btn btn-lg btn-outline-primary btn-sm" (click)="deleteResult(result.id)"><i class="fa fa-remove"  ngbTooltip="Delete result"></i></button></td>
+                  
+                </tr>
+                
+              </tbody>
+            </ng-container>
+          </table>
+      </div>
+      <table class="table table-striped table-bordered">
+      <tr *ngIf="resultList == ''">
+        <td colspan="6" class="text-center" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-style:roboto; font-size: 20px;">
+          No result found at this moment!!
+        </td>
+      </tr>
+    </table>
+  </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>

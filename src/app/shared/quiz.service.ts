@@ -103,16 +103,21 @@ theTestCode:any;
     code: string,
     score: number,
     maxScore: number,
+    participant_id:number
   ) {
     return this.http.post<any>(this.rootUrl +  `submit-Result`, {
       email,
       code,
       score,
       maxScore,
+      participant_id
       })
       .pipe();
   }
 
+  showResults(code:any){
+    return this.http.get(this.rootUrl + 'display-result/' + `${code}`)
+  }
   
   getTest(){
     return this.http.get(this.rootUrl + 'get-test')

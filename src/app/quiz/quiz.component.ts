@@ -17,6 +17,7 @@ students:any;
 timer;
 studentEmail:any;
 studentName:any;
+participantId:number;
 options:any=[];
 optOne:any;
 test:any;
@@ -47,6 +48,7 @@ remainingDuration:number;
     this.students=JSON.parse(localStorage.getItem('participant'));
     this.studentEmail=this.students && this.students.email ? this.students.email : '';
     this.studentName=this.students && this.students.name ? this.students.name : '';
+    this.participantId=this.students && this.students.id ? this.students.id : null;
 
     this.quizFormField();
     this.startFormField();
@@ -224,17 +226,18 @@ remainingDuration:number;
    
     localStorage.setItem('maxScore',JSON.stringify(this.getMaxScore()));
     const email=this.studentEmail;
+    const participant_id=this.participantId;
     const code=JSON.parse((localStorage.getItem('theTestCode')))
     console.log('the main cod',  code)
     let score=JSON.parse(localStorage.getItem('score'))
     const maxScore= JSON.parse(localStorage.getItem('maxScore'));
     console.log(email + code)
-    this.quizService.submitResult(email,code,score,maxScore).subscribe(
+    this.quizService.submitResult(email,code,score,maxScore,participant_id).subscribe(
       data=>{
         localStorage.setItem('result',JSON.stringify(data));
         localStorage.setItem('participant',JSON.stringify(data))
         localStorage.removeItem('questions');
-        this.route.navigate(['/result'])
+        this.route.navigate(['/register'])
       },
       (error)=>{
         console.log(error);

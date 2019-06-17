@@ -131,6 +131,7 @@
                 <th>Edit</th>
                 <th>Delete</th>
                 <th>Manage Questions</th>
+                <th>Candidate's Results</th>
               </tr>
             </thead>
             <ng-container *ngFor="let test of testLists let i=index;">
@@ -152,6 +153,11 @@
                         <img src="assets/images/mngqn.png" width="50" height="50">
                        </a>
                   </td>
+                  <td class="actionBtn">
+                    <a  [routerLink]="['/result', test.testCode]">
+                      View Results
+                     </a>
+                </td>
                 </tr>
                 <tr *ngIf="testLists && testLists.length===0">
                   <td colspan="5">
