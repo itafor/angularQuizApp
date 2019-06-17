@@ -35,6 +35,7 @@ hours:number;
 minnutes:number;
 seconds:number = 0;
 time:number;
+questions:any[];
 remainingDuration:number;
   constructor(public quizService:QuizService, private route:Router, public toarster:ToastrManager,
     public elem: ElementRef, public fb: FormBuilder, public _activatedRoute:ActivatedRoute,) {
@@ -50,10 +51,23 @@ remainingDuration:number;
     this.quizFormField();
     this.startFormField();
     this.displayTimeElapse()
-    if(this.remainingDuration === 49){
-      this.postResult();
+   
+   if(parseInt(localStorage.getItem('seconds')) > 0){
+    this.setTimer();
+    this.seconds=parseInt(localStorage.getItem('seconds'));
+    this.pos=parseInt(localStorage.getItem('pos'));
+    this.quizService.qns=JSON.parse(localStorage.getItem('qns'));
+    this.duration = parseInt(localStorage.getItem('duration'));
+   this.theTestCode =JSON.parse(localStorage.getItem('theTestCode'));
+    this.testTitle = JSON.parse(localStorage.getItem('testTitle'));
+    this.renderQuestions();
+    
+   }else{
+      this.setTimer();
     }
-    console.log('remaining dura',this.remainingDuration)
+    console.log('title',this.testTitle)
+
+
   }
 
   displayTimeElapse(){
@@ -62,12 +76,13 @@ remainingDuration:number;
   
   localStorage.setItem('minutes',JSON.stringify(Math.floor(this.seconds / 60)));
   let minnutes =JSON.parse(localStorage.getItem('minutes'));
-  localStorage.setItem('seconds',JSON.stringify(Math.floor(this.seconds % 60)));
-  let seconds  =JSON.parse(localStorage.getItem('seconds'));
+  localStorage.setItem('sec',JSON.stringify(Math.floor(this.seconds % 60)));
+  let sec  =JSON.parse(localStorage.getItem('sec'));
   localStorage.setItem('remainingDuration',JSON.stringify(this.duration - minnutes));
    this.remainingDuration =JSON.parse(localStorage.getItem('remainingDuration'));
-  localStorage.setItem('countDown',JSON.stringify(hours + ':' + minnutes + ':' + seconds));
+  localStorage.setItem('countDown',JSON.stringify(hours + ':' + minnutes + ':' + sec));
   this.time =JSON.parse(localStorage.getItem('countDown'));
+
    return  this.time;
   }
 
@@ -75,9 +90,9 @@ remainingDuration:number;
     this.seconds=0;
     this.quizService.getAllQuestions(code,email).subscribe(
       data=>{
-        localStorage.setItem('questions',JSON.stringify(data));
+        localStorage.setItem('qns',JSON.stringify(data));
 
-        this.quizService.qns =JSON.parse(localStorage.getItem('questions'));
+        this.quizService.qns =JSON.parse(localStorage.getItem('qns'));
         this.setTimer();
         this.testDetails(this.testCode);
         this.renderQuestions();
@@ -93,6 +108,7 @@ remainingDuration:number;
   setTimer(){
    this.quizService.timer=setInterval(()=>{
     this.seconds++;
+  localStorage.setItem('seconds',JSON.stringify(this.seconds));
   },1000)
   console.log('seeeeeeecond', this.seconds)
 
@@ -112,8 +128,11 @@ remainingDuration:number;
         this.theTestDetail=data;
         console.log('the test details', this.theTestDetail)
         this.duration=this.theTestDetail && this.theTestDetail.duration ? Number(this.theTestDetail.duration): null;
+        localStorage.setItem('duration',this.duration.toString());
         this.testTitle=this.theTestDetail && this.theTestDetail.subjectName ? this.theTestDetail.subjectName: null;
+        localStorage.setItem('testTitle', JSON.stringify(this.testTitle));
         this.theTestCode=this.theTestDetail && this.theTestDetail.testCode ? this.theTestDetail.testCode: null;
+        localStorage.setItem('theTestCode', JSON.stringify(this.theTestCode));
       },
       error=>{
         console.log(error)
@@ -147,25 +166,11 @@ remainingDuration:number;
   start(){
     this.testCode=this.getStartFormData.code.value;
     const email=this.getStartFormData.email.value;
-    console.log( this.testCode + '- ' + email);
+    console.log( this.testCode + ' - ' + email);
     console.log('the code', this.testCode)
     this.getAllQuestions( this.testCode,email);
   }
-  // getQuix(code:any){
-  //   const email=this.getStartFormData.email.value;
-  //   this.seconds=0;
-  //   this.quizService.qnProgress=0;
-  //   this.quizService.getAllQuestions(code,email).subscribe(
-  //     (data:any)=>{
-  //       this.quizService.qns = data;
-  //       this.setTimer();
-  //     console.log(data)
-  //   },
-  //   (error)=>{
-  //     console.log(error)
-  //   })
-  //  this.renderQuestions();
-  // }
+ 
 
   getMaxScore(){
     let maxScore=0;
@@ -191,18 +196,20 @@ remainingDuration:number;
       return;
     }
     const choices=this.getFormData.choices.value;
-    this.quizService.qnProgress++;
+   // this.quizService.qnProgress++;
     
-    if(this.quizService.qnProgress === this.quizService.qns.length){
-      clearInterval(this.quizService.timer);
-    }
+    // if(this.quizService.qnProgress === this.quizService.qns.length){
+    //   clearInterval(this.quizService.timer);
+    // }
 		 	if(choices === this.quizService.qns[this.pos].answer){
+         localStorage.setItem('qns', JSON.stringify(this.quizService.qns));
        this.correct += Number(this.quizService.qns[this.pos].marks);
        localStorage.setItem('score',JSON.stringify(this.correct))
          console.log('correct')
 		 	}
 
-		 this.pos++;
+     this.pos++;
+     localStorage.setItem('pos', this.pos.toString());
 		 this.renderQuestions();
       this.form.reset();
   }
@@ -217,7 +224,8 @@ remainingDuration:number;
    
     localStorage.setItem('maxScore',JSON.stringify(this.getMaxScore()));
     const email=this.studentEmail;
-    const code=this.getStartFormData.code.value;
+    const code=JSON.parse((localStorage.getItem('theTestCode')))
+    console.log('the main cod',  code)
     let score=JSON.parse(localStorage.getItem('score'))
     const maxScore= JSON.parse(localStorage.getItem('maxScore'));
     console.log(email + code)
