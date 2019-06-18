@@ -23,6 +23,8 @@ import { ListTestComponent } from './admin/list-test/list-test.component';
 import { ListQuestionsComponent } from './admin/list-questions/list-questions.component';
 import { ParticipantsComponent } from './participants/participants.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     ListTestComponent,
     ListQuestionsComponent,
     ParticipantsComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    LoginComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

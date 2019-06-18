@@ -10,10 +10,13 @@ import { ListTestComponent } from './admin/list-test/list-test.component';
 import { ListQuestionsComponent } from './admin/list-questions/list-questions.component';
 import { ParticipantsComponent } from './participants/participants.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
 
 export const appRoutes : Routes = [
 {path:'register',component:RegisterComponent},
-//{path:'quiz/:Code',component:QuizComponent, canActivate:[AuthGuard]},
+{path:'home',component:HomeComponent},
+{path:'login',component:LoginComponent},
 {path:'quiz',component:QuizComponent, canActivate:[AuthGuard]},
 {path:'result/:Code',component:ResultComponent,canActivate:[AuthGuard]},
 {path:'questions/:Code',component:AddQuestionComponent},
@@ -23,6 +26,7 @@ export const appRoutes : Routes = [
 {path:'questionList',component:ListQuestionsComponent, canActivate:[AuthGuard]},
 {path:'participant',component:ParticipantsComponent, canActivate:[AuthGuard]},
 {path:'testmgt/:Code',component:ListQuestionsComponent},
-{path:'**', component:PageNotFoundComponent},//when the user enters route that does not exist
-{path:'', redirectTo:'/register',pathMatch:'full'}
+ {path:'**', component:HomeComponent},
+//when the user enters route that does not exist
+{path:'',redirectTo: '/home', pathMatch:'full'},
 ];

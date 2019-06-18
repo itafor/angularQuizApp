@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { QuizService } from '../shared/quiz.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrManager } from 'ng6-toastr-notifications';
+
 
 @Component({
   selector: 'app-register',
@@ -13,13 +15,16 @@ export class RegisterComponent implements OnInit {
    participantForm:FormGroup;
 
   constructor(private quizService:QuizService,
-              private fb: FormBuilder,private route:Router) { }
+              private fb: FormBuilder,private route:Router,
+              public toarster:ToastrManager) { }
 
           participantFormData(){
           this.participantForm=this.fb.group({
           name: [null, Validators.compose([Validators.required])],
           email: [null, Validators.compose([Validators.required])],
-          role: [null, Validators.compose([Validators.required])]
+          role: [null, Validators.compose([Validators.required])],
+          password: [null, Validators.compose([Validators.required, Validators.minLength(6),Validators.maxLength(10)])],
+          confirmPassword: [null, Validators.compose([Validators.required])]
         })
       }
       get getparticipantForm(){
@@ -36,18 +41,25 @@ export class RegisterComponent implements OnInit {
     const name=this.getparticipantForm.name.value;
     const email=this.getparticipantForm.email.value;
     const role=this.getparticipantForm.role.value;
+    const password=this.getparticipantForm.password.value;
+    const confirmPassword=this.getparticipantForm.confirmPassword.value;
+    if(password === confirmPassword){
     console.log(email + name)
-    this.quizService.insertParticipant(name,email,role).subscribe(
+    this.quizService.insertParticipant(name,email,role,password).subscribe(
       data=>{
         localStorage.clear();
         localStorage.setItem('participant',JSON.stringify(data))
-        this.route.navigate(['/participant'])
+        this.route.navigate(['/quiz'])
         console.log(data);
       },
       (error)=>{
-        console.log(error);
+        this.toarster.warningToastr(error.error.warning,null, { toastTimeout: 4000 })
+        console.log(error.error.warning);
       }
     )
+    }else{
+      this.toarster.warningToastr('Password don\'t\ matched',null, { toastTimeout: 4000 })
+    }
   }
 
   

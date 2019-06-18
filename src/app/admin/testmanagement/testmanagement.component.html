@@ -100,17 +100,11 @@
               <div class="btn-group mr-2">
                   <a [routerLink]="['/testmgt']"><button type="button" class="btn btn-sm btn-outline-secondary">Add Test</button></a>
                   <a [routerLink]="['/testList']"> <button type="button" class="btn btn-sm btn-outline-secondary">List Test</button></a>
-                <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
               </div>
-              <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                <span data-feather="calendar"></span>
-                This week
-              </button>
+              
             </div>
           </div>
     
-          <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
     
     
           <div class="container ">
@@ -118,7 +112,7 @@
               <div class="card-header">
                 <h2>Section title</h2>
               </div>
-              <div class="card-body offset-2">
+              <div class="card-body "  style="padding-left: 400px;">
                   <form [formGroup]="addTestForm" (ngSubmit)="postTest()">
                       <div class="row">
                         <div class="col-md-6">

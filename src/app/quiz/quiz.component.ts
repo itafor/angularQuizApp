@@ -55,7 +55,7 @@ remainingDuration:number;
     this.displayTimeElapse()
    
    if(parseInt(localStorage.getItem('seconds')) > 0){
-    this.setTimer();
+    // this.setTimer();
     this.seconds=parseInt(localStorage.getItem('seconds'));
     this.pos=parseInt(localStorage.getItem('pos'));
     this.quizService.qns=JSON.parse(localStorage.getItem('qns'));
@@ -68,8 +68,6 @@ remainingDuration:number;
       this.setTimer();
     }
     console.log('title',this.testTitle)
-
-
   }
 
   displayTimeElapse(){
@@ -188,7 +186,7 @@ remainingDuration:number;
    this.pos=0;
     this.correct=0;
     this.postResult();
-    // return false;
+   return false;
   }
   this.displayFinalResult="Questions: " + (this.pos + 1) + " of " + this.quizService.qns.length;
   }
@@ -236,7 +234,6 @@ remainingDuration:number;
       data=>{
         localStorage.setItem('result',JSON.stringify(data));
         localStorage.setItem('participant',JSON.stringify(data))
-        localStorage.removeItem('questions');
         this.route.navigate(['/register'])
       },
       (error)=>{

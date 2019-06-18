@@ -1,164 +1,75 @@
 
-<div class="container-fluid" id="main">
-  <div class="row">
-    <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-      <div class="sidebar-sticky">
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link active" href="#">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="feather feather-home">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                <polyline points="9 22 9 12 15 12 15 22">
-                </polyline>
-              </svg>
-              <span data-feather="home"></span>
-              Dashboard <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file"></span>
-              Orders
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span class="glyphicon glyphicon-log-in"></span>
-              <span data-feather="shopping-cart"></span>
-              Questions
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="users"></span>
-              Customers
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="bar-chart-2"></span>
-              Reports
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="feather feather-layers">
-                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                <polyline points="2 17 12 22 22 17"></polyline>
-                <polyline points="2 12 12 17 22 12"></polyline>
-              </svg>
-              <span data-feather="layers"></span>
-              Integrations
-            </a>
-          </li>
-        </ul>
-
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span>Saved reports</span>
-          <a class="d-flex align-items-center text-muted" href="#">
-            <span data-feather="plus-circle"></span>
-          </a>
-        </h6>
-        <ul class="nav flex-column mb-2">
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Current month
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Last quarter
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Social engagement
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Year-end sale
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-      <div
-        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Dashboard</h1>
-        <div class="btn-toolbar mb-2 mb-md-0">
-          <div class="btn-group mr-2">
-              <a [routerLink]="['/testmgt']"><button type="button" class="btn btn-sm btn-outline-secondary">Add Test</button></a>
-              <a [routerLink]="['/testList']"> <button type="button" class="btn btn-sm btn-outline-secondary">List Test</button></a>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-          </div>
-          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-            <span data-feather="calendar"></span>
-            This week
-          </button>
-        </div>
-      </div>
-
-      <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
-
-
+<app-page-not-found></app-page-not-found>
+    <main role="main" class="col-md-12">
       <div class="container ">
-        <div class="card">
-          <div class="card-header">
-            <h2>Section title</h2>
-          </div>
-          <div class="card-body offset-2">
-
-            <form [formGroup]="participantForm" (ngSubmit)="addParticipant()">
-              <div class="row">
-                <div class=" col-md-6">
-                  <label for="icon_prefix">First Name</label>
-                  <input id="icon_prefix" type="text" [formControl]="participantForm.controls['name']"
-                    class="form-control">
-                </div>
-              </div>
-              <div class="row">
-                <div class=" col-md-6">
-                  <label for="icon_telephone">Email</label>
-                  <input id="icon_telephone" type="email" [formControl]="participantForm.controls['email']"
-                    [pattern]="emailPattern" class="form-control">
-                </div>
-              </div>
-
-              <div class="row">
-                <div class=" col-md-6">
-                  <label for="icon_telephone">Role</label>
-                  <select  [formControl]="participantForm.controls['role']" class="form-control">
-                    <option [value]="null" [selected]="null">Select role</option>
-                    <option value="Examinal">Examinal</option>
-                    <option value="candidate">candidate</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class=" col-md-6">
-                  <button class="btn btn-large btn-submit" type="submit" [disabled]="!participantForm.valid"
-                    class="form-control text-primary">Start</button>
-                </div>
-              </div>
-            </form>
-          </div>
+<div class="card bg-light">
+    <article class="card-body mx-auto" style="max-width: 400px;">
+      <h4 class="card-title mt-3 text-center">Create Account</h4>
+      <p class="text-center">Get started with your free account</p>
+      <p>
+        <a href="" class="btn btn-block btn-twitter"> <i class="fa fa-twitter"></i>   Login via Twitter</a>
+        <a href="" class="btn btn-block btn-facebook"> <i class="fa fa-facebook-f"></i>   Login via facebook</a>
+      </p>
+      <p class="divider-text">
+            <span class="bg-light">OR</span>
+        </p>
+        <form [formGroup]="participantForm" (ngSubmit)="addParticipant()">
+      <div class="form-group input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+         </div>
+            <input id="icon_prefix" type="text" [formControl]="participantForm.controls['name']"  placeholder="Full name" class="form-control">
+        </div> <!-- form-group// -->
+        <div class="form-group input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+         </div>
+            <input id="icon_telephone" type="email" [formControl]="participantForm.controls['email']"
+            [pattern]="emailPattern" class="form-control" placeholder="Email address" >
+        </div> <!-- form-group// -->
+       
+        <div class="form-group input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-building"></i> </span>
         </div>
+        <select  [formControl]="participantForm.controls['role']" class="form-control"  >
+            <option [value]="null" [selected]="null">Select role</option>
+            <option value="Examinal">Examinal</option>
+            <option value="candidate">candidate</option>
+          </select>
+      </div> <!-- form-group end.// -->
+        <div class="form-group input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+        </div>
+        <input id="password" type="password" [formControl]="participantForm.controls['password']"
+        class="form-control" placeholder="password"
+        [ngClass]="{'is-invalid': participantForm.controls['password'].hasError('required') && participantForm.controls['password'].touched}">
+        <div class="invalid-feedback"
+        *ngIf="participantForm.controls['password'].hasError('required') && participantForm.controls['password'].touched">
+        password must not be less than 6 digits</div>
+        </div> <!-- form-group// -->
+        <div class="form-group input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+        </div>
+            <input id="password" type="password" [formControl]="participantForm.controls['confirmPassword']"
+           class="form-control" placeholder="Confirm Password" 
+           [ngClass]="{'is-invalid': participantForm.controls['confirmPassword'].hasError('required') && participantForm.controls['confirmPassword'].touched}">
+           <div class="invalid-feedback"
+           *ngIf="participantForm.controls['confirmPassword'].hasError('required') && participantForm.controls['confirmPassword'].touched">
+           password must not be less than 6 digits</div>
+        </div> <!-- form-group// -->                                      
+        <div class="form-group">
+            <button  class="btn btn-primary btn-block"  type="submit" [disabled]="!participantForm.valid"
+            class="form-control text-primary">Create Account</button>
+        </div> <!-- form-group// -->      
+        <p class="text-center">Have an account? <a   [routerLink]="['/login']" > <button class="btn btn-outline-success my-2 my-sm-0">Login</button> </a></p>                                                                 
+    </form>
+    </article>
+    </div> <!-- card.// -->
 
-
-      </div>
+      </div> <!-- container ends -->
     </main>
-  </div>
-</div>
+  
+

@@ -61,9 +61,10 @@ theTestCode:any;
     name:string,
     email:string,
     role:number,
+    password:any
     ){
     return this.http.post<any>(this.rootUrl + `insertParticipants`, 
-    {name,email,role})
+    {name,email,role,password})
     .pipe();
   }
 
@@ -178,5 +179,8 @@ theTestCode:any;
 return this.http.post(this.rootUrl  +  `addNewQuestion`,formData)
 }
 
+signIn( email:any, password:any){
+  return this.http.get(this.rootUrl + 'log-in/' + `${email}/` + `${password}`)
+}
 }
 

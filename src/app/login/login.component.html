@@ -1,0 +1,41 @@
+<app-page-not-found></app-page-not-found>
+<main role="main" class="col-md-12">
+    <div class="container ">
+<div class="card bg-light">
+  <article class="card-body mx-auto" style="max-width: 400px;">
+      <h4 class="card-header mt-3 text-center" style="margin-bottom: 20px;">Login</h4>
+    
+   
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+   
+      <div class="form-group input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+       </div>
+          <input id="icon_telephone" type="email" [formControl]="loginForm.controls['email']"
+          [pattern]="emailPattern" class="form-control" placeholder="Email address" >
+      </div> <!-- form-group// -->
+     
+     
+      <div class="form-group input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+      </div>
+      <input id="password" type="password" [formControl]="loginForm.controls['password']"
+      class="form-control" placeholder="password"
+      [ngClass]="{'is-invalid': loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched}">
+      <div class="invalid-feedback"
+      *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">
+      password must not be less than 6 digits</div>
+      </div> <!-- form-group// -->
+      <div class="form-group">
+          <button  class="btn btn-primary btn-block"  type="submit" [disabled]="!loginForm.valid"
+          class="form-control text-primary">Login</button>
+      </div> <!-- form-group// -->      
+      <p class="text-center">Don't have an account? <a   [routerLink]="['/register']" > <button class="btn btn-outline-success my-2 my-sm-0">Register</button> </a> </p>                                                                 
+  </form>
+  </article>
+  </div> <!-- card.// -->
+
+    </div> <!-- container ends -->
+  </main>
