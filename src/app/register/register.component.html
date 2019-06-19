@@ -53,7 +53,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
         </div>
-            <input id="password" type="password" [formControl]="participantForm.controls['confirmPassword']"
+            <input id="confirmPassword" type="password" [formControl]="participantForm.controls['confirmPassword']"
            class="form-control" placeholder="Confirm Password" 
            [ngClass]="{'is-invalid': participantForm.controls['confirmPassword'].hasError('required') && participantForm.controls['confirmPassword'].touched}">
            <div class="invalid-feedback"

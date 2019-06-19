@@ -1,1 +1,50 @@
 <app-page-not-found></app-page-not-found>
+
+<header  [ngStyle]="styleObject()">
+    <div class="row">
+        <ul class="main-nav pull-right">
+            <li class="active"><a href="/home">Home</a></li>
+            <li><a href="/service">Services</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/faq">FAQ</a></li>
+        </ul>
+    </div>
+
+    <!-- <div class="getStarted">
+        <h1>Create unlimited tests and unlimited multi-choice questions <br> in each test, you can as well add images in your questions, it's free!!</h1>
+        <a href="/register"> <button class="btn btn-outline-primary  btn-lg startBtn" >Get started</button></a>
+    </div> -->
+
+    <div class="welcomeMsg"> 
+        <div class="row col-md-12">
+                <div class="col-md-6 msg">
+                    <h3> FreeQuizZone is suitable for job recruitment test and classroom assessment</h3>
+                    <a href="/register"> <button class="btn  btn-lg startBtn" >Get started, it's free</button></a>
+                </div>
+                <div class="col-md-6 students"  [ngStyle]="studentsPix()">
+                        <p> Create unlimited tests and multi-choice questions with just a click for your next job recruitment or classroom test</p>
+                </div>
+        </div>
+    </div>
+    <div class="instruction">
+
+    <div class="row col-md-12">
+        <div class="col-md-4 createTest">
+                <h3>1. Create Tests</h3>
+                <img src="assets/images/create-tests.webp">
+                <p>Create Tests with set Questions or have Questions selected at random from your Question bank each time it's taken.</p>
+        </div>
+        <div class="col-md-4 grading">
+                <h3>2. View Results</h3>
+                <img src="assets/images/instant-exam-grading.webp">
+                <p>Optionally provide individual Question feedback and overall Test feedback instantly in real time to Test takers.</p>
+            </div>
+            <div class="col-md-4 stat">
+                	<h3>3. Analyze Statistics</h3>
+                    <img src="assets/images/analyse-exam-statistics.webp">
+               <p>Break down individual and Group performance by Test, Questions and Categories with our Quiz maker tool.</p>
+                </div>
+    </div>   
+
+    </div>
+</header>

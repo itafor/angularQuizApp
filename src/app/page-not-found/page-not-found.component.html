@@ -1,5 +1,9 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">QuizApp</a>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark ">
+    <a class="navbar-brand"  [routerLink]="['/home']">
+      <div class="logo">
+          <img src="assets/images/mngqn.png"> <span>FreeQuizZone</span> 
+      </div>
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -10,8 +14,8 @@
           <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
         </li>
       </ul>
-      <a  [routerLink]="['/login']">  <button class="btn btn-outline-success my-2 my-sm-0" >Login</button></a>
-     <a  [routerLink]="['/register']"> <button class="btn btn-outline-success my-2 my-sm-0">Register</button></a> 
+      <a  [routerLink]="['/login']">  <button class="btn btn-outline-info my-2 my-sm-0" >Login</button></a> &nbsp;
+     <a  [routerLink]="['/register']"> <button class="btn btn-outline-info my-2 my-sm-0">Register</button></a> 
     </div>
   </nav>
   

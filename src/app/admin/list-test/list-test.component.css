@@ -1,3 +1,6 @@
 .actionBtn{
     cursor: pointer;
 }
+#main{
+    margin-top: -50px;
+    }

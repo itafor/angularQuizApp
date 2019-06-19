@@ -38,6 +38,8 @@ seconds:number = 0;
 time:number;
 questions:any[];
 remainingDuration:number;
+getRemainingDuration:number;
+flagSubmit:boolean=false;
   constructor(public quizService:QuizService, private route:Router, public toarster:ToastrManager,
     public elem: ElementRef, public fb: FormBuilder, public _activatedRoute:ActivatedRoute,) {
       
@@ -45,17 +47,21 @@ remainingDuration:number;
 
   ngOnInit() {
    
-    this.students=JSON.parse(localStorage.getItem('participant'));
-    this.studentEmail=this.students && this.students.email ? this.students.email : '';
-    this.studentName=this.students && this.students.name ? this.students.name : '';
-    this.participantId=this.students && this.students.id ? this.students.id : null;
-
     this.quizFormField();
     this.startFormField();
-    this.displayTimeElapse()
+    if(localStorage.getItem('pos') == null){
+    localStorage.setItem('pos', this.pos.toString());
+    }
+    this.students=JSON.parse(localStorage.getItem('participant'));
+    if(this.students){
+      this.studentEmail=this.students && this.students.email ? this.students.email : '';
+      this.studentName=this.students && this.students.name ? this.students.name : '';
+      this.participantId=this.students && this.students.id ? this.students.id : null;
+    }
+  
    
    if(parseInt(localStorage.getItem('seconds')) > 0){
-    // this.setTimer();
+     this.setTimer();
     this.seconds=parseInt(localStorage.getItem('seconds'));
     this.pos=parseInt(localStorage.getItem('pos'));
     this.quizService.qns=JSON.parse(localStorage.getItem('qns'));
@@ -63,11 +69,9 @@ remainingDuration:number;
    this.theTestCode =JSON.parse(localStorage.getItem('theTestCode'));
     this.testTitle = JSON.parse(localStorage.getItem('testTitle'));
     this.renderQuestions();
-    
-   }else{
-      this.setTimer();
-    }
-    console.log('title',this.testTitle)
+   }
+   
+  
   }
 
   displayTimeElapse(){
@@ -82,7 +86,6 @@ remainingDuration:number;
    this.remainingDuration =JSON.parse(localStorage.getItem('remainingDuration'));
   localStorage.setItem('countDown',JSON.stringify(hours + ':' + minnutes + ':' + sec));
   this.time =JSON.parse(localStorage.getItem('countDown'));
-
    return  this.time;
   }
 
@@ -93,9 +96,9 @@ remainingDuration:number;
         localStorage.setItem('qns',JSON.stringify(data));
 
         this.quizService.qns =JSON.parse(localStorage.getItem('qns'));
-        this.setTimer();
         this.testDetails(this.testCode);
         this.renderQuestions();
+        this.setTimer();
       },
       error=>{
         this.toarster.warningToastr(error.error.warning,null, { toastTimeout: 4000 })
@@ -128,7 +131,7 @@ remainingDuration:number;
         this.theTestDetail=data;
         console.log('the test details', this.theTestDetail)
         this.duration=this.theTestDetail && this.theTestDetail.duration ? Number(this.theTestDetail.duration): null;
-        localStorage.setItem('duration',this.duration.toString());
+        localStorage.setItem('duration', JSON.stringify(this.duration));
         this.testTitle=this.theTestDetail && this.theTestDetail.subjectName ? this.theTestDetail.subjectName: null;
         localStorage.setItem('testTitle', JSON.stringify(this.testTitle));
         this.theTestCode=this.theTestDetail && this.theTestDetail.testCode ? this.theTestDetail.testCode: null;
@@ -185,7 +188,8 @@ remainingDuration:number;
     this.displayFinalResult=" You got " + this.correct + " of " + this.quizService.qns.length + " questions correct";
    this.pos=0;
     this.correct=0;
-    this.postResult();
+    this.flagSubmit=true;
+    //this.postResult();
    return false;
   }
   this.displayFinalResult="Questions: " + (this.pos + 1) + " of " + this.quizService.qns.length;
@@ -196,11 +200,7 @@ remainingDuration:number;
       return;
     }
     const choices=this.getFormData.choices.value;
-   // this.quizService.qnProgress++;
-    
-    // if(this.quizService.qnProgress === this.quizService.qns.length){
-    //   clearInterval(this.quizService.timer);
-    // }
+  
 		 	if(choices === this.quizService.qns[this.pos].answer){
          localStorage.setItem('qns', JSON.stringify(this.quizService.qns));
        this.correct += Number(this.quizService.qns[this.pos].marks);
@@ -209,7 +209,8 @@ remainingDuration:number;
 		 	}
 
      this.pos++;
-     localStorage.setItem('pos', this.pos.toString());
+     localStorage.removeItem('pos');
+     localStorage.setItem('pos', JSON.stringify(this.pos));
 		 this.renderQuestions();
       this.form.reset();
   }
@@ -234,7 +235,10 @@ remainingDuration:number;
       data=>{
         localStorage.setItem('result',JSON.stringify(data));
         localStorage.setItem('participant',JSON.stringify(data))
-        this.route.navigate(['/register'])
+       localStorage.removeItem('qns');
+        this.route.navigate(['/home'])
+        localStorage.clear();
+        localStorage.removeItem('seconds');
       },
       (error)=>{
         console.log(error);
@@ -244,6 +248,10 @@ remainingDuration:number;
 
   signout(){
     localStorage.clear();
+    this.route.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
+    this.quizService.qns=[];
     clearInterval(this.quizService.timer);
     this.route.navigate(['/register']);
       }

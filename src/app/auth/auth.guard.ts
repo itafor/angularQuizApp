@@ -9,17 +9,11 @@ import { NEXT } from '@angular/core/src/render3/interfaces/view';
 export class AuthGuard implements CanActivate {
   constructor(private route:Router){}
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean  {
-    let users=JSON.parse(localStorage.getItem('participant'));
     if(localStorage.getItem('participant') !=null){
       return true;
-    }else if(localStorage.getItem('participant') !=null && users.role ==="candidate"){
-      this.route.navigate(['/quiz']);
-      return false;
-    }else{
-      this.route.navigate(['/register']);
-      return false;
     }
- 
+      this.route.navigate(['/login']);
+      return false;
   }
   
 }

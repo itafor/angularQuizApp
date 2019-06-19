@@ -1,0 +1,124 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+header{
+    box-shadow: inset 0 0 0 1000px rgba(0,0,0,.2);
+}
+
+.main-nav{
+    float: right;
+    list-style: none;
+    margin-top: 40px;
+    padding-left: 100px;
+}
+.main-nav li {
+    display: inline-block;
+}
+
+.main-nav li a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 20px;
+    font-family: roboto;
+    font-size: 15px;
+}
+.main-nav li.active a{
+    border: 1px solid white;
+}
+.main-nav li a:hover{
+    border: 1px solid white;
+}
+.logo img{
+    width: 60px;
+    height: auto;
+    margin-top:10px;
+    margin-left: 30px;
+    float: left;
+}
+body{
+    font-family: monospace;
+}
+
+    
+
+
+    .instruction{
+        width: 100%;
+        height: 400px;
+        background: #dfe3ee;
+        position: absolute;
+        bottom: 0;
+        margin-bottom: -200px;
+    }
+    .createTest , .grading, .stat {
+        padding: 20px 100px;
+        /* text-align: center; */
+    }
+
+    .stat p{
+        margin-top: 10px;
+       width: 280px;
+       padding: 5px;
+    }
+    .stat h3{
+        margin-bottom: 5px;
+        width: 280px;
+        padding: 5px;
+    }
+    .createTest  p{
+        margin-top: 10px;
+        width: 280px;
+        padding: 5px;
+    }
+
+    .createTest h3{
+        margin-bottom: 5px;
+        width: 280px;
+        padding: 5px;
+    }
+     .grading  p{
+        margin-top: 10px;
+        width: 280px;
+        padding: 5px;
+    }
+
+    .grading h3{
+        margin-bottom: 5px;
+        width: 280px;
+        padding: 5px;
+    }
+
+    .welcomeMsg{
+        width: 100%;
+        height: 350px;
+        background: #dfe3ee;
+        position: absolute;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .students , .msg {
+        padding: 20px 100px;
+        /* text-align: center; */
+    }
+
+    .students {
+        box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.6);
+        color: #ffffff;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        font-size: 26px;
+    }
+    .startBtn{
+      padding: 3px;
+        border: 1px solid #f66733;
+        height: 50px;
+        font-size: 24px;
+        background-color: #f66733;
+        color: #000000;
+        font-family: 'Times New Roman', Times, serif;
+    }
+    .startBtn:hover{
+        background-color: #ffffff;
+        color: #000000;
+    }

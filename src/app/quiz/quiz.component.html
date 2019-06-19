@@ -7,7 +7,7 @@
             
           </li>
       <li class="nav-item text-nowrap">
-        <a class="nav-link" (click)="signout()">Sign out</a>
+        <a class="nav-link" (click)="signout()" href="/register">Sign out</a>
       </li>
     </ul>
   </nav>
@@ -20,7 +20,7 @@
 
       <main role="main" class="col-md-12" >
 
-<div  class="col-md-7 float-right"  *ngIf="!quizService.qns " >
+<div  class="col-md-7 float-right"  *ngIf="!quizService.qns" >
    <form [formGroup]="startTestForm" (ngSubmit)="start()">
               <div class="row">
                 <div class="col-md-4">
@@ -48,7 +48,9 @@
 
         <div class="col-md-12"  *ngIf="quizService.qns">
 
-       
+       <span *ngIf="remainingDuration === 0">
+       {{postResult()}}
+       </span>
         <div
           class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <button type="button" class="btn btn-sm btn-outline-secondary"><h1 class="h2">TEST TITLE : {{testTitle}}</h1></button>
@@ -120,9 +122,13 @@
                         </div>
                       </div>
                   <div class="row">
-                    <div class=" col-md-6" style="margin-top: 30px;">
+                    <div class=" col-md-4" style="margin: 10px 5px 5px 20px;"  *ngIf="!flagSubmit">
                     <button class="submitButton btn btn-outline-success" [disabled]="!form.valid" > Next Question</button>
                     </div>
+                    <div class=" col-md-4"style="margin: 10px 5px 5px 20px;" *ngIf="flagSubmit">
+                      <button class="submitButton btn btn-outline-danger" (click)="postResult();"> SUBMIT RESULT </button>
+                      </div>
+                    
                   </div>
                 </form>
               </div>

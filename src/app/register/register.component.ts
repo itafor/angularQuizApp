@@ -47,9 +47,8 @@ export class RegisterComponent implements OnInit {
     console.log(email + name)
     this.quizService.insertParticipant(name,email,role,password).subscribe(
       data=>{
-        localStorage.clear();
-        localStorage.setItem('participant',JSON.stringify(data))
-        this.route.navigate(['/quiz'])
+        
+        this.route.navigate(['/login'])
         console.log(data);
       },
       (error)=>{

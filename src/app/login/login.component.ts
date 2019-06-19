@@ -35,9 +35,11 @@ login(){
   const password=this.getLoginForm.password.value;
   this.quizService.signIn(email,password).subscribe(
     data=>{
-      if(data){
-        this.route.navigate(['/quiz']);
-      }
+     
+        localStorage.clear();
+        localStorage.setItem('participant',JSON.stringify(data))
+        this.route.navigate(['/quiz'])
+      
     },
    error=>{
     this.toarster.warningToastr(error.error.warning,null, { toastTimeout: 4000 })
