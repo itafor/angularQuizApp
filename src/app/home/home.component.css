@@ -108,8 +108,10 @@ body{
         color: #ffffff;
         font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         font-size: 26px;
+        height: 300px;
     }
     .startBtn{
+        margin-top: 20px;
       padding: 3px;
         border: 1px solid #f66733;
         height: 50px;
@@ -122,3 +124,16 @@ body{
         background-color: #ffffff;
         color: #000000;
     }
+
+    @media screen and (max-width: 780px) {
+        
+        .students {
+            box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.6);
+            color: #ffffff;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size: 26px;
+            /* height: 300px; */
+            margin-bottom: 100px;
+        }
+           
+      }

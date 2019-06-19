@@ -22,3 +22,12 @@ p{
     font: outline;
     font-size: 16px;
 }
+.btn{
+    border: 1px solid #ffffff;
+background: #000000;
+color: #ffffff;
+}
+.btn:hover{
+    background: #ffffff;
+color: #000000;
+}
