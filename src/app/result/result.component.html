@@ -50,7 +50,7 @@
                 <th>SN</th>
                 <th> Full Name</th>
                 <th> Email</th>
-                <th>Obtained Marks</th>
+                <th>Score</th>
                 <th>Result (%)</th>
                 <th>Date Taken</th>
                 <th>Delete</th>
@@ -64,7 +64,7 @@
                   <td>{{i+1}}</td>
                   <td>{{result.name }}</td>
                   <td>{{result.email }}</td>
-                  <td>{{result.score }}</td>
+                  <td>{{result.score }} / {{result.maxScore}}</td>
                   <td>{{ ((result.score/result.maxScore) * 100).toFixed(2)}} % </td>
                   <td>{{result.created_at}} </td>
                   <td class="actionBtn"> <button class="btn btn-lg btn-outline-primary btn-sm" (click)="deleteResult(result.id)"><i class="fa fa-remove"  ngbTooltip="Delete result"></i></button></td>
@@ -76,7 +76,7 @@
           </table>
       </div>
       <table class="table table-striped table-bordered">
-      <tr *ngIf="resultList == ''">
+      <tr *ngIf="!resultList">
         <td colspan="6" class="text-center" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-style:roboto; font-size: 20px;">
           No result found at this moment!!
         </td>

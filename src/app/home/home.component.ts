@@ -19,8 +19,8 @@ export class HomeComponent implements OnInit {
 
     studentsPix():Object{
       return {
-        background:'url(assets/images/vector-illustration-students-taking.webp)',
-         'background-size': 'cover',' background-position': 'center'
+        background:'url(assets/images/gettyimages.jpg)',
+         'background-size': 'cover',' background-position': 'center', 'padding-bottom': '-150px'
         }
       
     }
