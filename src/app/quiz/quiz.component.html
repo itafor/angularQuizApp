@@ -12,42 +12,56 @@
     </ul>
   </nav>
 
+
+
+  
+  <div class="container px-lg-12"  *ngIf="!quizService.qns" class="startTextContainer">
+    <div class="row mx-lg-12 ">
+      <div class="col py-8 px-lg-7 border bg-light">
+        <h2>Instruction</h2>
+   
+     <div class="form-row">
+        <div class="form-group col-md-12">
+          <textarea  class="form-control instruction" >
+              {{textInstruction}}
+          </textarea>
+        </div>
+      </div>
+      </div>
+      <div class="col py-4 px-lg-3 border bg-light textForm">
+        <form [formGroup]="startTestForm" (ngSubmit)="start()">
+          <div class="row">
+            <div class="col-md-4">
+                <span for="optiona"></span>
+                    <input  type="hidden"
+                    [formControl]="startTestForm.controls['code']" 
+                    formControlName="code" class="form-control" [(ngModel)]="myLogInTestCode">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+                    <input  type="hidden"
+                    [formControl]="startTestForm.controls['email']" 
+                    formControlName="email"  class="form-control" [(ngModel)]="studentEmail" >
+            </div>
+          </div>
+          <div class="row">
+            <div class=" col-md-6" style="margin-top: 30px;">
+            <button class="btn btn-outline-success btn-lg startTestBtn" [disabled]="!startTestForm.valid" > Start Test</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      </div>
+  </div>
+
 <div class="container-fluid" id="main">
 
-    
+
+
     <div class="row">
-      
-
       <main role="main" class="col-md-12" >
-
-<div  class="col-md-7 float-right"  *ngIf="!quizService.qns" >
-   <form [formGroup]="startTestForm" (ngSubmit)="start()">
-              <div class="row">
-                <div class="col-md-4">
-                    <span for="optiona">Test Code</span>
-                        <input  type="text"
-                        [formControl]="startTestForm.controls['code']" 
-                        formControlName="code" class="form-control" >
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-4">
-                    <span for="optiona">Email</span>
-                        <input  type="email"
-                        [formControl]="startTestForm.controls['email']" 
-                        formControlName="email"  class="form-control" [(ngModel)]="studentEmail">
-                </div>
-              </div>
-              <div class="row">
-                <div class=" col-md-6" style="margin-top: 30px;">
-                <button class="btn btn-outline-success btn-lg" [disabled]="!startTestForm.valid" > Start Test</button>
-                </div>
-              </div>
-            </form>
-          </div>
-
         <div class="col-md-12"  *ngIf="quizService.qns">
-
        <span *ngIf="remainingDuration === 0">
        {{postResult()}}
        </span>

@@ -25,6 +25,7 @@ export class TestmanagementComponent implements OnInit {
       numberOfQn: [null, Validators.compose([Validators.required])],
       duration: [null, Validators.compose([Validators.required])],
       testCode: [null, Validators.compose([Validators.required])],
+      instruction:[null, Validators.compose([Validators.required])],
     });
   }
 
@@ -38,8 +39,9 @@ export class TestmanagementComponent implements OnInit {
     const numberOfQn=this.getTest.numberOfQn.value;
     const duration=this.getTest.duration.value;
     const testCode=this.getTest.testCode.value;
-console.log(subjectName);
-    this.quizService.addTest(subjectName,numberOfQn,duration,testCode).subscribe(
+    const instruction=this.getTest.instruction.value;
+console.log(instruction);
+    this.quizService.addTest(subjectName,numberOfQn,duration,testCode,instruction).subscribe(
       data=>{
   this.toarster.successToastr('Test Added successfully', null, { toastTimeout: 3000 })
         this.addTestForm.reset();

@@ -40,13 +40,16 @@ questions:any[];
 remainingDuration:number;
 getRemainingDuration:number;
 flagSubmit:boolean=false;
+myLogInTestCode:any;
+textInstruction:any;
   constructor(public quizService:QuizService, private route:Router, public toarster:ToastrManager,
     public elem: ElementRef, public fb: FormBuilder, public _activatedRoute:ActivatedRoute,) {
       
      }
 
   ngOnInit() {
-   
+    this.myLogInTestCode=JSON.parse(localStorage.getItem('mylogTestCode'));
+    this.textInstruction = JSON.parse(localStorage.getItem('textInstruction'));
     this.quizFormField();
     this.startFormField();
     if(localStorage.getItem('pos') == null){
@@ -113,8 +116,6 @@ flagSubmit:boolean=false;
     this.seconds++;
   localStorage.setItem('seconds',JSON.stringify(this.seconds));
   },1000)
-  console.log('seeeeeeecond', this.seconds)
-
   }
 
   timeAlert(time:number){
@@ -167,14 +168,16 @@ flagSubmit:boolean=false;
   }
 
   start(){
+    if (
+      confirm(
+        'Are you sure you want to start this test?'
+      )
+    ){
     this.testCode=this.getStartFormData.code.value;
     const email=this.getStartFormData.email.value;
-    console.log( this.testCode + ' - ' + email);
-    console.log('the code', this.testCode)
     this.getAllQuestions( this.testCode,email);
   }
- 
-
+  }
   getMaxScore(){
     let maxScore=0;
    for(let i=0; i<this.quizService.qns.length; i++){
@@ -189,7 +192,8 @@ flagSubmit:boolean=false;
    this.pos=0;
     this.correct=0;
     this.flagSubmit=true;
-    //this.postResult();
+    clearInterval(this.quizService.timer);
+    console.log('time taken:', this.quizService.timer)
    return false;
   }
   this.displayFinalResult="Questions: " + (this.pos + 1) + " of " + this.quizService.qns.length;

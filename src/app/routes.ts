@@ -24,7 +24,7 @@ export const appRoutes : Routes = [
 {path:'testmgt',component:TestmanagementComponent, canActivate:[AuthGuard]},
 {path:'testList',component:ListTestComponent, canActivate:[AuthGuard]},
 {path:'questionList',component:ListQuestionsComponent, canActivate:[AuthGuard]},
-{path:'participant',component:ParticipantsComponent, canActivate:[AuthGuard]},
+{path:'participant',component:ParticipantsComponent},
 {path:'testmgt/:Code',component:ListQuestionsComponent},
  {path:'**', component:HomeComponent},
 //when the user enters route that does not exist

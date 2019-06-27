@@ -67,7 +67,16 @@ theTestCode:any;
     {name,email,role,password})
     .pipe();
   }
-
+  
+  contact(
+    email:string,
+    message:any,
+    ){
+    return this.http.post<any>(this.rootUrl + `contact-us`, 
+    {email,message})
+    .pipe();
+  }
+  
   updateParticipant(
     id:number,
     name:string,
@@ -89,12 +98,14 @@ theTestCode:any;
     numberOfQn: number,
     duration: number,
     testCode: string,
+    instruction:any,
   ) {
     return this.http.post<any>(this.rootUrl +  `newTest`, {
       subjectName,
       numberOfQn,
       duration,
       testCode,
+      instruction,
       })
       .pipe();
   }
@@ -164,9 +175,10 @@ theTestCode:any;
     numberOfQn:string,
     duration:string,
     testCode:string,
+    instruction:any
     ){
     return this.http.put(this.rootUrl + `update-test/` + id, 
-    {subjectName,numberOfQn,duration,testCode})
+    {subjectName,numberOfQn,duration,testCode,instruction})
     .pipe();
   }
 
@@ -180,7 +192,11 @@ return this.http.post(this.rootUrl  +  `addNewQuestion`,formData)
 }
 
 signIn( email:any, password:any){
-  return this.http.get(this.rootUrl + 'log-in/' + `${email}/` + `${password}`)
+  return this.http.get(this.rootUrl + 'candidateLog-in/' + `${email}/` + `${password}`)
+}
+
+examinaleSignIn( email:any, password:any,examinal:any){
+  return this.http.get(this.rootUrl + 'examinalLog-in/' + `${email}/` + `${password}/` + `${examinal}`)
 }
 }
 

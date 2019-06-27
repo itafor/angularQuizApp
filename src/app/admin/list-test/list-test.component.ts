@@ -167,7 +167,8 @@ testToDelete(){
     const numberOfQn=this.testToEdit.numberOfQn;
     const duration=this.testToEdit.duration;
     const testCode=this.testToEdit.testCode;
-    this.quizService.updateTest(id,subjectName,numberOfQn,duration,testCode)
+    const instruction=this.testToEdit.instruction;
+    this.quizService.updateTest(id,subjectName,numberOfQn,duration,testCode,instruction)
     .subscribe(
       data=>{
         console.log(data);

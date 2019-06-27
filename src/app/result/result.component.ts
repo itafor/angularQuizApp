@@ -5,6 +5,8 @@ import { NgbModalConfig, NgbModal,ModalDismissReasons, NgbActiveModal} from '@ng
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrManager } from 'ng6-toastr-notifications';
 import { HttpClient } from '@angular/common/http';
+import * as jspdf from 'jspdf';
+import * as html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-result',
@@ -70,4 +72,22 @@ maximumScore:number;
     )
   }
  
+  public captureScreen() {
+    // let data: any= document.getElementById('result_to_print');
+    // html2canvas(data).then(canvas => {
+    //   // Few necessary setting options
+    //   var imgWidth = 208;
+    //   var pageHeight = 295;
+    //   var imgHeight = (canvas.height * imgWidth) / canvas.width;
+    //   var heightLeft = imgHeight;
+
+    //   const contentDataURL = canvas.toDataURL('image/png');
+    //   let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
+    //   var position = 0;
+    //   pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+
+    //   pdf.save('test-result.pdf'); // Generated PDF
+    //   console.log(contentDataURL);
+    // });
+  }
 }

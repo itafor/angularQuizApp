@@ -1,12 +1,12 @@
 <app-page-not-found></app-page-not-found>
     <main>
 
-        <div class="row">
+        <div class="row" style="border-top: 1px #ffffff solid;">
                 <ul class="main-nav ">
-                    <li class="active"><a href="/home">Home</a></li>
+                    <li class="active"><a  [routerLink]="['/home']">Home</a></li>
                     <li><a href="/service">Services</a></li>
-                    <li><a href="/contact">Contact</a></li>
-                    <li><a href="/faq">FAQ</a></li>
+                    <li><a href="/contactus">Contact</a></li>
+                    <li><a href="/faq">How it works</a></li>
                 </ul>
             </div>
 
@@ -76,16 +76,12 @@
 
                 <div class="footer-left">
     
-                    <h3 style="font-size:18px; color: #ffffff;">  <img src="assets/images/mngqn.png" width="50px" height="50px"> <span style="color: #ffffff;">FreeQuizZone</span> </h3>
+                    <h3 style="font-size:18px; color: #ffffff;">  <img src="assets/images/mngqn.png" width="50px" height="50px"> <span style="color: #ffffff;">QuizZone</span> </h3>
     
                     <p class="footer-links">
-                        <a href="#">Home</a>
-                        ·
-                        <a href="#">Blog</a>
+                        <a [routerLink]="['/home']">Home</a>
                         ·
                         <a href="#">About</a>
-                        ·
-                        <a href="#">Faq</a>
                         ·
                         <a href="#">Contact</a>
                     </p>
@@ -96,9 +92,6 @@
     
                         <a href="#"><i class="fa fa-facebook"></i></a>
                         <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-linkedin"></i></a>
-                        <a href="#"><i class="fa fa-github"></i></a>
-    
                     </div>
     
                 </div>
@@ -106,13 +99,15 @@
                 <div class="footer-right">
     
                     <p>Contact Us</p>
-    
-                    <form action="#" method="post">
-    
-                        <input type="text" name="email" placeholder="Email" />
-                        <textarea name="message" placeholder="Message"></textarea>
-                        <button>Send</button>
-    
+                    <form [formGroup]="contactForm" (ngSubmit)="contactus()">
+                        <input type="text" [formControl]="contactForm.controls['email']" placeholder="Email" [pattern]="emailPattern"
+                        [ngClass]="{'is-invalid': contactForm.controls['email'].hasError('required') && contactForm.controls['email'].touched}" />
+                        <div class="invalid-feedback"
+                        *ngIf="contactForm.controls['email'].hasError('required') && contactForm.controls['email'].touched">
+                       Invalid Email</div>
+                        <textarea [formControl]="contactForm.controls['message']" placeholder="Message"></textarea>
+                        <button  class="btn btn-primary btn-block"  type="submit" [disabled]="!contactForm.valid"
+          class="form-control text-primary">Submit</button>
                     </form>
     
                 </div>

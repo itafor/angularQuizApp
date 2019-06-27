@@ -34,6 +34,7 @@ export class ListQuestionsComponent implements OnInit {
   testTodEditNumberOfQn:any;
   testTodEditDuration:any;
   testTodEditTestCode:any;
+  testTodEditInstruction:any;
   message:string;
   public imagePath;
   imgURL: any;
@@ -49,6 +50,7 @@ duration:number;
 questionsList:any[];
 @Input()
 subject:any;
+
 selectedFile=null;
   constructor(public quizService:QuizService,
     public _activatedRoute:ActivatedRoute, public fb: FormBuilder,
@@ -124,6 +126,7 @@ selectedFile=null;
     localStorage.setItem('testCode',JSON.stringify(code));
     let retrievedCode=JSON.parse(localStorage.getItem('testCode'))
 
+  
 
 
     this.quizService.questionDetailsCode=retrievedCode;
@@ -152,6 +155,7 @@ selectedFile=null;
           this.testTodEditNumberOfQn=testTodEditCredentials.numberOfQn;
           this.testTodEditDuration=testTodEditCredentials.duration;
           this.testTodEditTestCode=testTodEditCredentials.testCode;
+          this.testTodEditInstruction=testTodEditCredentials.instruction;
           console.log('real test data', testTodEditCredentials)
           console.log('real test data2 id',  this.testTodEditId)
         }
@@ -339,7 +343,8 @@ this.loading=false;
    const numberOfQn= this.testTodEditNumberOfQn
    const duration=this.testTodEditDuration;
    const testCode= this.testTodEditTestCode;
-   this.quizService.updateTest(id,subjectName,numberOfQn,duration,testCode)
+   const instruction= this.testTodEditInstruction;
+   this.quizService.updateTest(id,subjectName,numberOfQn,duration,testCode,instruction)
    .subscribe(
      data=>{
        this.loading = false;

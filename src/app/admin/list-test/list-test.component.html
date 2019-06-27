@@ -198,7 +198,6 @@
                       <input id="icon_prefix" type="text" class="form-control" #numberOfQn="ngModel" name="numberOfQn" [(ngModel)]="testToEdit.numberOfQn">
                     </div>
                   </div>
-                
                   <div class="form-row">
                       <div class="form-group col-md-6">
                         <label for="inputEmail4">Duration</label>
@@ -210,6 +209,13 @@
                       </div>
                     </div>
                     
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                
+                  <label for="inputPassword4">Instruction</label>
+                          <textarea rows="5"  class="form-control" #instruction="ngModel" name="instruction" [(ngModel)]="testToEdit.instruction" ></textarea>
+                        </div>
+                      </div>
                       <div class="row">
                           <div class="col-md-12" >
                             <button class="form-control btn-submit btn btn-outline-primary mb-2 mr-2" [disabled]="!editForm.valid" type="submit"><i *ngIf="loading"
