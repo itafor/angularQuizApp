@@ -4,7 +4,7 @@
         <div class="row navba">
                 <ul class="main-nav ">
                     <li class="active"><a  [routerLink]="['/home']">Home</a></li>
-                    <li><a href="/faq">How it works</a></li>
+                    <li><a href="#howItWorks">How it works</a></li>
                     <li><a href="javascript: document.body.scrollIntoView(false);">Contact Us</a></li>
                 </ul>
             </div>
@@ -30,14 +30,13 @@
         </div>
 
 </header>
-	<div class="news">
-           
-
+	<div class="news" id="howItWorks">
+           <h4> How it works: Examinals</h4>
                     <div class="row col-md-12">
                             <div class="col-md-4">
 						
 								<div class="card news1">
-                                        <h3 class="newsHeading">1. Create Tests</h3>
+                                        <h3 class="newsHeading">1. Create tests/questions</h3>
                                         <img src="assets/images/create-tests.webp">
 								  <div class="card-body">
                                         <p>Create Tests and add multiple number of questions in each test </p>
@@ -46,10 +45,10 @@
                             </div>
                                 <div class="col-md-4">
 								<div class="card news2">
-                                        <h3 class="newsHeading">2. View Results</h3>
+                                        <h3 class="newsHeading">2. View or print results </h3>
                                         <img src="assets/images/instant-exam-grading.webp">
 								  <div class="card-body">
-                                        <p>View or Print results of candidates that participated in the test from your dasboard.</p>
+                                        <p>View or Print results of candidates that participated in the test from your dashboard.</p>
 								  </div>
                                 </div>
                             </div>
@@ -69,7 +68,45 @@
 				
 				</div>
 				</div>
-
+                <div class="news">
+                        <h4>How it works: Candidates</h4>
+                                 <div class="row col-md-12">
+                                         <div class="col-md-4">
+                                     
+                                             <div class="card news1">
+                                                     <h3 class="newsHeading">1.Registration</h3>
+                                                     <img src="assets/images/signup.jpg">
+                                               <div class="card-body">
+                                                     <p>Register on the site by providing neccessary info, don't forget to select Candidate as your role </p>
+                                               </div>
+                                             </div>
+                                         </div>
+                                             <div class="col-md-4">
+                                             <div class="card news2">
+                                                     <h3 class="newsHeading">2. Get Test Code</h3>
+                                                     <img src="assets/images/codes.png">
+                                               <div class="card-body">
+                                                     <p>Get the test's code from your prospective examinal and proceed to take your exam, always use the Candidate's section</p>
+                                               </div>
+                                             </div>
+                                         </div>
+                                         <div class="col-md-4">
+             
+                                             <div class="card news3">
+                                                     <h3 class="newsHeading">3. Login and take exam</h3>
+                                                     <img src="assets/images/login.jpg">
+                                               <div class="card-body">
+                                                     <p>Login to the system with your exam's code, make sure you read the exam's instruction then click 'start test button' </p>
+                                               </div>
+                                             </div>
+                                          </div>
+             
+             
+                                 
+                             
+                             </div>
+                             </div>
+             
 
 		<!-- The content of your page would go here. -->
 
@@ -113,7 +150,10 @@
                     </form>
                    
                 </div>
-                <span style="color: white; margin-top:50px;">Phone: 07065907948
-                    Email: myskillhub@gmail.com</span>
+                <span class="contactPhoneEmail">
+                    
+                    <a href="mailto:myskillhub@gmail.com" style="color: white;">
+                    Email: myskillhub@gmail.com</a></span><br/>
+                   <a style="color: white;">Phone: 07065907948</a>
             </footer>
 </main>
