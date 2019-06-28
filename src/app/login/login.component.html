@@ -4,10 +4,10 @@
   <div class="container px-lg-12"  class="startTextContainer">
         <div class="row mx-lg-12 ">
           <div class="col py-8 px-lg-7 border bg-light">
-            <h2>Candidate</h2>
+            <h2>Candidates</h2>
             <div class="card bg-light">
                 <article class="card-body mx-auto" style="max-width: 400px;">
-                    <h4 class="card-header mt-3 text-center" style="margin-bottom: 20px;">Want to take an exam? Login</h4>
+                    <h4 class="card-header mt-3 text-center" style="margin-bottom: 20px;">For Candidates</h4>
                     <form [formGroup]="loginForm" (ngSubmit)="candidateLogin()">
                       <div class="form-group input-group">
                         <div class="input-group-prepend">
@@ -39,7 +39,7 @@
                         <button  class="btn btn-primary btn-block"  type="submit" [disabled]="!loginForm.valid"
                         class="form-control text-primary">Login</button>
                     </div> <!-- form-group// -->      
-                    <p class="text-center">Don't have an account? <a   [routerLink]="['/register']" > <button class="btn btn-outline-success my-2 my-sm-0">Register</button> </a> </p>                                                                 
+                    <p class="text-center">Don't have an account? <a   [routerLink]="['/register']" > <button class="btn btn-outline-primary my-2 my-sm-0">Register</button> </a> </p>                                                                 
                 </form>
                 </article>
                 </div> <!-- card.// -->
@@ -50,8 +50,8 @@
         <div class="col py-8 px-lg-7 border bg-light">
             <h2>Examinals</h2>
             <div class="card bg-light">
-                <article class="card-body mx-auto" style="max-width: 400px;">
-                    <h4 class="card-header mt-3 text-center" style="margin-bottom: 20px;">Want to set an exam? Login</h4>
+                <article class="card-body mx-auto examinalArticle" >
+                    <h4 class="card-header mt-3 text-center" style="margin-bottom: 20px;">For Examinals</h4>
                     <form [formGroup]="examinalLoginForm" (ngSubmit)="examinalLogin()">
                       <div class="form-group input-group">
                         <div class="input-group-prepend">
@@ -83,7 +83,7 @@
                         <button  class="btn btn-primary btn-block"  type="submit" [disabled]="!examinalLoginForm.valid"
                         class="form-control text-primary">Login</button>
                     </div> <!-- form-group// -->      
-                    <p class="text-center">Don't have an account? <a   [routerLink]="['/register']" > <button class="btn btn-outline-success my-2 my-sm-0">Register</button> </a> </p>                                                                 
+                    <p class="text-center">Don't have an account? <a   [routerLink]="['/register']" > <button class="btn btn-outline-primary my-2 my-sm-0">Register</button> </a> </p>                                                                 
                 </form>
                 </article>
                 </div> <!-- card.// -->

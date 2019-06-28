@@ -14,7 +14,13 @@ import * as html2canvas from 'html2canvas';
   styleUrls: ['./result.component.css']
 })
 export class ResultComponent implements OnInit {
-
+  studentsPix():Object{
+    return {
+      background:'url(assets/images/gettyimages.jpg)',
+       'background-size': 'cover',' background-position': 'center', 'padding-bottom': '-150px','color':'white'
+      }
+    
+  }
   resultList:any[];
   theTestDetail:any;
   testCode:any;
@@ -73,21 +79,13 @@ maximumScore:number;
   }
  
   public captureScreen() {
-    // let data: any= document.getElementById('result_to_print');
-    // html2canvas(data).then(canvas => {
-    //   // Few necessary setting options
-    //   var imgWidth = 208;
-    //   var pageHeight = 295;
-    //   var imgHeight = (canvas.height * imgWidth) / canvas.width;
-    //   var heightLeft = imgHeight;
-
-    //   const contentDataURL = canvas.toDataURL('image/png');
-    //   let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
-    //   var position = 0;
-    //   pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
-
-    //   pdf.save('test-result.pdf'); // Generated PDF
-    //   console.log(contentDataURL);
-    // });
+    const printContent = document.getElementById("result_to_print");
+    const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=400,border=2,toolbar=0,scrollbars=0,status=0');
+    WindowPrt.document.write(printContent.innerHTML);
+    WindowPrt.document.write('<link rel="stylesheet" type="text/css" href="./app/result/layer.css">');
+    WindowPrt.document.close();
+    WindowPrt.focus();
+    WindowPrt.print();
+    WindowPrt.close();
   }
 }

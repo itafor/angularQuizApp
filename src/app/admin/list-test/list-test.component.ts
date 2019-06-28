@@ -22,6 +22,7 @@ export class ListTestComponent implements OnInit {
   subj:string;
   closeResult:string;
   students:any;
+  examinalId:number;
   studentEmail:any;
   testToEdit:any;
   confirmTest:any=[];
@@ -73,7 +74,8 @@ export class ListTestComponent implements OnInit {
   ngOnInit() {
     this.students=JSON.parse(localStorage.getItem('participant'));
     this.studentEmail=this.students && this.students.email ? this.students.email : '';
-    this.displayTest()
+    this.examinalId=this.students && this.students.id ? this.students.id : null;
+    this.displayTest(this.examinalId)
     this. getListedQns();
     this.numberOfQns();
     this.allQuestionsCodes();
@@ -82,8 +84,8 @@ export class ListTestComponent implements OnInit {
 
   
 
-displayTest(){
-  this.quizService.getTest().subscribe(
+displayTest(id:number){
+  this.quizService.getTest(id).subscribe(
     data=>{
       this.testLists=data;
     }
@@ -104,7 +106,7 @@ allQuestionsCodes(){
           this.testvalues=resp;
           this.pushedTest.push(this.testvalues)
           console.log('all the test',  this.pushedTest );
-          this.testToDelete();
+          // this.testToDelete();
         }
       )
     })
@@ -113,17 +115,17 @@ allQuestionsCodes(){
   
 }
 
-testToDelete(){
-  this.testTobeDeleted = this.testLists.filter(itemA => !this.pushedTest.some(itemB => itemB.id === itemA.id));
-  console.log('test to delete', this.testTobeDeleted);
-  this.pushedTest.forEach(item=>{
-    let idToStrg =String(item.id);
-    this.testWithQtnIds.push(idToStrg);
-  })
+// testToDelete(){
+//   this.testTobeDeleted = this.testLists.filter(itemA => !this.pushedTest.some(itemB => itemB.id === itemA.id));
+//   console.log('test to delete', this.testTobeDeleted);
+//   this.pushedTest.forEach(item=>{
+//     let idToStrg =String(item.id);
+//     this.testWithQtnIds.push(idToStrg);
+//   })
 
-  console.log('test ids not to del', this.testWithQtnIds);
+//   console.log('test ids not to del', this.testWithQtnIds);
 
-}
+// }
   getAllQuestions(code:any,noOfQn:number,duration:number,subject:string){
     this.studentEmail=this.students && this.students.email ? this.students.email : '';
     this.quizService.getAllQuestions(code,this.studentEmail).subscribe(
@@ -173,7 +175,7 @@ testToDelete(){
       data=>{
         console.log(data);
         this.loading = false;
-        this.displayTest();
+        this.displayTest(this.examinalId);
         this.modalService.dismissAll();
         this.toarster.successToastr('Selected Test updated successfully', null, { toastTimeout: 3000 })
       },
@@ -209,7 +211,7 @@ testToDelete(){
         this.quizService.deleteTest(id).subscribe(
           data=>{
             this.toarster.successToastr('Selected Test deleted successfully',null, { toastTimeout: 3000 });
-            this.displayTest();
+            this.displayTest(this.examinalId);
           },
           error=>{
               this.toarster.errorToastr('Error: ' + error.error.warning, null, { toastTimeout: 3000 })
@@ -262,7 +264,7 @@ testToDelete(){
       this.quizService.deleteTest(id).subscribe(
         data=>{
           localStorage.setItem('flag',JSON.stringify(data));
-          this.displayTest()
+          this.displayTest(this.examinalId)
           this.ids=[];
         },
         error=>{

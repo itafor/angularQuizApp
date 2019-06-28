@@ -7,8 +7,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 export class QuizService {
-readonly rootUrl:string = 'http://127.0.0.1:8000/api/';
-readonly imageUrl:string='http://127.0.0.1:8000/';
+readonly rootUrl:string = 'http://localhost:8000/api/';
+readonly imageUrl:string='http://localhost:8000/';
 qns:any[];
 seconds:number;
 timer;
@@ -99,6 +99,7 @@ theTestCode:any;
     duration: number,
     testCode: string,
     instruction:any,
+    participantId:number
   ) {
     return this.http.post<any>(this.rootUrl +  `newTest`, {
       subjectName,
@@ -106,6 +107,7 @@ theTestCode:any;
       duration,
       testCode,
       instruction,
+      participantId
       })
       .pipe();
   }
@@ -131,8 +133,8 @@ theTestCode:any;
     return this.http.get(this.rootUrl + 'display-result/' + `${code}`)
   }
   
-  getTest(){
-    return this.http.get(this.rootUrl + 'get-test')
+  getTest(id:number){
+    return this.http.get(this.rootUrl + 'get-test/' + `${id}`)
   }
 
   getAllQuestions(code:any, email:any){

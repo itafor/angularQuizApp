@@ -100,7 +100,7 @@ examinalLogin(){
     data=>{
         localStorage.clear();
         localStorage.setItem('participant',JSON.stringify(data))
-        this.route.navigate(['/testList']);
+        this.route.navigate(['/testmgt']);
     },
    error=>{
     this.toarster.warningToastr(error.error.warning,null, { toastTimeout: 4000 })

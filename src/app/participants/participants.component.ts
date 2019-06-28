@@ -9,14 +9,20 @@ import { Router } from '@angular/router';
 })
 export class ParticipantsComponent implements OnInit {
   testLists:any=[];
+  examinalId:number;
+  participant;any;
   constructor(public quizService:QuizService, public route:Router,) { }
 
   ngOnInit() {
-    this.displayTest()
+    this.displayTest(this.examinalId);
+    if(localStorage.getItem('participant') !=null){
+      this.participant=JSON.parse(localStorage.getItem('participant'));
+      this.examinalId=this.participant && this.participant.id ? this.participant.id : null;
+    }
   }
 
-  displayTest(){
-    this.quizService.getTest().subscribe(
+  displayTest(id:number){
+    this.quizService.getTest(id).subscribe(
       data=>{
         this.testLists=data;
         console.log(data);

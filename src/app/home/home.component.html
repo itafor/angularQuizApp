@@ -100,7 +100,7 @@
     
                     <p>Contact Us</p>
                     <form [formGroup]="contactForm" (ngSubmit)="contactus()">
-                        <input type="text" [formControl]="contactForm.controls['email']" placeholder="Email" [pattern]="emailPattern"
+                        <input type="email" [formControl]="contactForm.controls['email']" placeholder="Email" [pattern]="emailPattern"
                         [ngClass]="{'is-invalid': contactForm.controls['email'].hasError('required') && contactForm.controls['email'].touched}" />
                         <div class="invalid-feedback"
                         *ngIf="contactForm.controls['email'].hasError('required') && contactForm.controls['email'].touched">

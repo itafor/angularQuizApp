@@ -11,12 +11,19 @@ import { ToastrManager } from 'ng6-toastr-notifications';
 })
 export class TestmanagementComponent implements OnInit {
   public addTestForm:FormGroup;
+  participant:any;
+  examinalId:number;
   constructor(public quizService:QuizService, 
-    route:Router,public toarster:ToastrManager,
+    private router:Router,public toarster:ToastrManager,
     public fb: FormBuilder) { }
 
   ngOnInit() {
     this.testFormFields();
+    if(localStorage.getItem('participant') !=null){
+      this.participant=JSON.parse(localStorage.getItem('participant'));
+      this.examinalId=this.participant && this.participant.id ? this.participant.id : null;
+    }
+   
   }
 
   testFormFields() {
@@ -26,6 +33,7 @@ export class TestmanagementComponent implements OnInit {
       duration: [null, Validators.compose([Validators.required])],
       testCode: [null, Validators.compose([Validators.required])],
       instruction:[null, Validators.compose([Validators.required])],
+      participantId:[null, Validators.compose([Validators.required])],
     });
   }
 
@@ -40,11 +48,14 @@ export class TestmanagementComponent implements OnInit {
     const duration=this.getTest.duration.value;
     const testCode=this.getTest.testCode.value;
     const instruction=this.getTest.instruction.value;
+    const participantId = this.getTest.participantId.value;
 console.log(instruction);
-    this.quizService.addTest(subjectName,numberOfQn,duration,testCode,instruction).subscribe(
+    this.quizService.addTest(subjectName,numberOfQn,duration,testCode,instruction,participantId).subscribe(
       data=>{
   this.toarster.successToastr('Test Added successfully', null, { toastTimeout: 3000 })
         this.addTestForm.reset();
+        this.participant=JSON.parse(localStorage.getItem('participant'));
+        this.router.navigate(['/testList']);
       },
       error=>{
       this.toarster.errorToastr('Error: ' + error.error.warning, null, { toastTimeout: 4000 })

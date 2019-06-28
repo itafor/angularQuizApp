@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
 
     contactFormData(){
       this.contactForm=this.fb.group({
-      email: [null, Validators.compose([Validators.required, Validators.pattern('/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/')])],
+      email: [null, Validators.compose([Validators.required])],
       message: [null, Validators.compose([Validators.required, Validators.minLength(10),Validators.maxLength(100)])],
     })
   }

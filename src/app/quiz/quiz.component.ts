@@ -243,20 +243,17 @@ textInstruction:any;
         this.route.navigate(['/home'])
         localStorage.clear();
         localStorage.removeItem('seconds');
+        this.toarster.successToastr('Result submitted successfully',null,{toastrTimeout:5000})
       },
       (error)=>{
         console.log(error);
       }
     )
   }
-
   signout(){
     localStorage.clear();
-    this.route.routeReuseStrategy.shouldReuseRoute = function () {
-      return false;
-    };
-    this.quizService.qns=[];
     clearInterval(this.quizService.timer);
-    this.route.navigate(['/register']);
+    this.route.navigate(['/home']);
       }
+ 
 }

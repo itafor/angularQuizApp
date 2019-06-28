@@ -321,6 +321,11 @@ this.loading=false;
   }
 
   delete(id:number){
+    if (
+      confirm(
+        'Are you sure you want to delete the selected question?'
+      )
+    ){
     this.quizService.deleteQuestion(id).subscribe(
       data=>{
         this.toarster.successToastr('Selected question deleted successfully',null, { toastTimeout: 3000 });
@@ -332,7 +337,7 @@ this.loading=false;
       }
       
     )
-    console.log(id)
+    }
   }
 
 
