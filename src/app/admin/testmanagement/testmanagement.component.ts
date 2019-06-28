@@ -13,6 +13,7 @@ export class TestmanagementComponent implements OnInit {
   public addTestForm:FormGroup;
   participant:any;
   examinalId:number;
+  loadingTest:boolean=false;
   constructor(public quizService:QuizService, 
     private router:Router,public toarster:ToastrManager,
     public fb: FormBuilder) { }
@@ -43,6 +44,7 @@ export class TestmanagementComponent implements OnInit {
     if(this.addTestForm.invalid){
       return;
     }
+    this.loadingTest=true;
     const subjectName=this.getTest.subjectName.value;
     const numberOfQn=this.getTest.numberOfQn.value;
     const duration=this.getTest.duration.value;
@@ -53,6 +55,7 @@ console.log(instruction);
     this.quizService.addTest(subjectName,numberOfQn,duration,testCode,instruction,participantId).subscribe(
       data=>{
   this.toarster.successToastr('Test Added successfully', null, { toastTimeout: 3000 })
+  this.loadingTest=false;
         this.addTestForm.reset();
         this.participant=JSON.parse(localStorage.getItem('participant'));
         this.router.navigate(['/testList']);

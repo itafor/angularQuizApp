@@ -15,7 +15,9 @@ export class LoginComponent implements OnInit {
   examinalLoginForm:FormGroup
   theTestDetail:any;
   logTestCode:any;
-  textInstruction:any
+  textInstruction:any;
+  loadingCandidate:boolean=false;
+  loadingExaminal:boolean = false;
   constructor(private quizService:QuizService,
     private fb: FormBuilder,private route:Router,
     public toarster:ToastrManager) { }
@@ -69,6 +71,7 @@ candidateLogin(){
     this.toarster.warningToastr('Invalid test code, please enter the test code provided by your examinal',null, { toastTimeout: 5000 });
     return;
   }
+  this.loadingCandidate=true;
   const email=this.getLoginForm.email.value;
   const password=this.getLoginForm.password.value;
   const code=this.getLoginForm.code.value;
@@ -80,6 +83,7 @@ candidateLogin(){
         localStorage.setItem('mylogTestCode', JSON.stringify(code));
         this.textInstruction=this.theTestDetail && this.theTestDetail.instruction ? this.theTestDetail.instruction: null;
         localStorage.setItem('textInstruction', JSON.stringify(this.textInstruction));
+        this.loadingCandidate=false;
         console.log('the test instruction 2...',JSON.parse(localStorage.getItem('textInstruction')));
        
     },
@@ -93,6 +97,7 @@ examinalLogin(){
   if(this.examinalLoginForm.invalid){
     return;
   }
+  this.loadingExaminal=true;
   const email=this.getExaminalLoginForm.email.value;
   const password=this.getExaminalLoginForm.password.value;
   const examinal=this.getExaminalLoginForm.examinal.value;
@@ -101,6 +106,7 @@ examinalLogin(){
         localStorage.clear();
         localStorage.setItem('participant',JSON.stringify(data))
         this.route.navigate(['/testmgt']);
+        this.loadingExaminal=false;
     },
    error=>{
     this.toarster.warningToastr(error.error.warning,null, { toastTimeout: 4000 })

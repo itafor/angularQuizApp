@@ -13,7 +13,7 @@ import { ToastrManager } from 'ng6-toastr-notifications';
 export class RegisterComponent implements OnInit {
    emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
    participantForm:FormGroup;
-
+   loadingRegister:boolean = false;
   constructor(private quizService:QuizService,
               private fb: FormBuilder,private route:Router,
               public toarster:ToastrManager) { }
@@ -38,6 +38,7 @@ export class RegisterComponent implements OnInit {
     if(this.participantForm.invalid){
       return
     }
+   
     const name=this.getparticipantForm.name.value;
     const email=this.getparticipantForm.email.value;
     const role=this.getparticipantForm.role.value;
@@ -45,9 +46,11 @@ export class RegisterComponent implements OnInit {
     const confirmPassword=this.getparticipantForm.confirmPassword.value;
     if(password === confirmPassword){
     console.log(email + name)
+    this.loadingRegister = true;
     this.quizService.insertParticipant(name,email,role,password).subscribe(
       data=>{
-        
+        this.toarster.successToastr('Successfully registered',null,{toastTimeout:4000})
+        this.loadingRegister=false;
         this.route.navigate(['/login'])
         console.log(data);
       },

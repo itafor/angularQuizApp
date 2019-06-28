@@ -11,6 +11,7 @@ import { ToastrManager } from 'ng6-toastr-notifications';
 export class HomeComponent implements OnInit {
   contactForm:FormGroup;
   emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  loadingContactus:boolean=false;
   constructor(private quizService:QuizService,
     private fb: FormBuilder,private route:Router,
     public toarster:ToastrManager) { }
@@ -27,7 +28,7 @@ export class HomeComponent implements OnInit {
     studentsPix():Object{
       return {
         background:'url(assets/images/gettyimages.jpg)',
-         'background-size': 'cover',' background-position': 'center', 'padding-bottom': '-150px'
+         'background-size': 'cover',' background-position': 'center', 'padding-bottom': '-150px','width':'100%'
         }
       
     }
@@ -45,6 +46,7 @@ export class HomeComponent implements OnInit {
   if(this.contactForm.invalid){
     return;
   }
+  this.loadingContactus=true;
   const email=this.getContactForm.email.value;
   const message=this.getContactForm.message.value;
   console.log(email, message)
@@ -52,6 +54,7 @@ export class HomeComponent implements OnInit {
     data=>{
     this.toarster.successToastr('Thanks for contacting us, we will get back to you shortly',null, { toastTimeout: 4000 })
       this.contactForm.reset();
+      this.loadingContactus=false;
     },
    error=>{
     this.toarster.errorToastr(error.error.error,null, { toastTimeout: 4000 })

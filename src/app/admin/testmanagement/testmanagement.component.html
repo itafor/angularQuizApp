@@ -42,7 +42,7 @@
           
                       <div class="row">
                           <div  class="col-md-6">
-                              <label for="icon_telephone">Duration</label>
+                              <label for="icon_telephone">Duration (in mins)</label>
                             <input id="icon_telephone" class="form-control" type="number"  [formControl]="addTestForm.controls['duration']" >
                            
                           </div>
@@ -63,7 +63,9 @@
             
                       <div class="row">
                        
-                          <button class="form-control btn-submit btn-outline-primary" type="submit" [disabled]="!addTestForm.valid" >Submit</button>
+                          <button class="form-control btn-submit btn-outline-primary" type="submit" [disabled]="!addTestForm.valid">
+                              <i
+                              *ngIf="loadingTest" class="fa fa-spinner fa-spin"></i>Submit</button>
                         
                       </div>
                     </form>

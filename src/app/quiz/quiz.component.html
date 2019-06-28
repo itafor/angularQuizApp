@@ -1,13 +1,13 @@
 <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow" >
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Quiz App</a>
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">QuizZone</a>
     <a class="nav-link" *ngIf="studentEmail" style="color: #fff">Welcome {{studentName}} ({{studentEmail}})</a>
 
     <ul class="navbar-nav">
         <li class="nav-item text-nowrap">
             
           </li>
-      <li class="nav-item text-nowrap">
-        <a class="nav-link" (click)="signout()" href="/login">Sign out</a>
+      <li class="nav-item text-nowrap" style="padding-right: 20px;">
+        <a class="nav-link" (click)="signout()" href="/login" >Sign out</a>
       </li>
     </ul>
   </nav>

@@ -1,13 +1,13 @@
 <app-page-not-found></app-page-not-found>
 <main role="main" class="col-md-12">
    
-  <div class="container px-lg-12"  class="startTextContainer">
-        <div class="row mx-lg-12 ">
-          <div class="col py-8 px-lg-7 border bg-light">
+  <div class="container"  class="startTextContainer">
+        <div class="row col-lg-12 rowContainer">
+          <div class="col-md-6  border bg-light">
             <h2>Candidates</h2>
-            <div class="card bg-light">
-                <article class="card-body mx-auto" style="max-width: 400px;">
-                    <h4 class="card-header mt-3 text-center" style="margin-bottom: 20px;">For Candidates</h4>
+            <div class="card ">
+                <article class="card-body mx-auto">
+                    <h4 class="card-header mt-3 text-center forCandidate">Candidates Login</h4>
                     <form [formGroup]="loginForm" (ngSubmit)="candidateLogin()">
                       <div class="form-group input-group">
                         <div class="input-group-prepend">
@@ -37,9 +37,10 @@
                     </div> <!-- form-group// -->
                     <div class="form-group">
                         <button  class="btn btn-primary btn-block"  type="submit" [disabled]="!loginForm.valid"
-                        class="form-control text-primary">Login</button>
+                        class="form-control text-primary">   <i
+                        *ngIf="loadingCandidate" class="fa fa-spinner fa-spin"></i>Login</button>
                     </div> <!-- form-group// -->      
-                    <p class="text-center">Don't have an account? <a   [routerLink]="['/register']" > <button class="btn btn-outline-primary my-2 my-sm-0">Register</button> </a> </p>                                                                 
+                    <p class="text-center dhavccount">Don't have an account? <a   [routerLink]="['/register']" > <button class="btn btn-outline-primary my-2 my-sm-0">Register</button> </a> </p>                                                                 
                 </form>
                 </article>
                 </div> <!-- card.// -->
@@ -47,11 +48,11 @@
 
 
 
-        <div class="col py-8 px-lg-7 border bg-light">
+        <div class="col-md-6 border bg-light">
             <h2>Examinals</h2>
-            <div class="card bg-light">
-                <article class="card-body mx-auto examinalArticle" >
-                    <h4 class="card-header mt-3 text-center" style="margin-bottom: 20px;">For Examinals</h4>
+            <div class="card examinalCard">
+                <article class="card-body mx-auto " >
+                    <h4 class="card-header mt-3 text-center forCandidate">Examinals Login</h4>
                     <form [formGroup]="examinalLoginForm" (ngSubmit)="examinalLogin()">
                       <div class="form-group input-group">
                         <div class="input-group-prepend">
@@ -81,9 +82,10 @@
                     </div> <!-- form-group// -->
                     <div class="form-group">
                         <button  class="btn btn-primary btn-block"  type="submit" [disabled]="!examinalLoginForm.valid"
-                        class="form-control text-primary">Login</button>
+                        class="form-control text-primary"> <i
+                        *ngIf="loadingExaminal" class="fa fa-spinner fa-spin"></i> Login</button>
                     </div> <!-- form-group// -->      
-                    <p class="text-center">Don't have an account? <a   [routerLink]="['/register']" > <button class="btn btn-outline-primary my-2 my-sm-0">Register</button> </a> </p>                                                                 
+                    <p class="text-center dhavccount">Don't have an account? <a   [routerLink]="['/register']" > <button class="btn btn-outline-primary my-2 my-sm-0">Register</button> </a> </p>                                                                 
                 </form>
                 </article>
                 </div> <!-- card.// -->
