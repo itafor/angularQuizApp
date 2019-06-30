@@ -7,8 +7,9 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 export class QuizService {
-readonly rootUrl:string = 'http://localhost:8000/api/';
-readonly imageUrl:string='http://localhost:8000/';
+ // https://freequizzone.000webhostapp.com
+readonly rootUrl:string = '127.0.0.1:8000/api/';
+readonly imageUrl:string='127.0.0.1:8000/';
 qns:any[];
 seconds:number;
 timer;
